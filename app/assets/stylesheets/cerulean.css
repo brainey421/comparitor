@@ -1,0 +1,11 @@
+/* Cerulean
+ * Bootswatch
+ *= require_self
+ *= require cerulean/loader
+ *= require cerulean/bootswatch
+*/
+
+body
+{
+	padding-top: 70px;
+}

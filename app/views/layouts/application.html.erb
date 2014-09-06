@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>The Comparitor</title>
+  
+  <%= favicon_link_tag 'favicon.ico' %>
+  
+  <%= stylesheet_link_tag "cerulean", :media => "all" %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+	  <%= link_to "The Comparitor", root_path, {class: "navbar-brand"}%>
+	</div>
+	
+	<% if session[:user_id] && session[:user_email] %>
+      <ul class="nav navbar-nav navbar-right">
+	    <li><p class="navbar-text">Welcome, <%= session[:user_email] %>!</p></li>
+        <li><%= link_to "My Account", edit_user_path(session[:user_id]) %></li>
+	    <li><%= link_to "Logout", logout_user_path %></li>
+	  </ul>
+	<% end %>
+  </div>
+</nav>
+
+<div class="container">
+  <% if flash[:notice] %>
+    <div class="alert alert-danger" role="alert"><%= flash[:notice] %></div>
+  <% end %>
+  
+  <%= yield %>
+</div>
+
+</body>
+</html>
