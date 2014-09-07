@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get '/users/modify/:user_id' => 'users#modify', as: 'modify_user'
   
   get '/categories' => 'categories#index', as: 'categories'
+  get '/categories/show/:category_id' => 'categories#show', as: 'show_category'
   
   get '*path' => redirect("/")
   
