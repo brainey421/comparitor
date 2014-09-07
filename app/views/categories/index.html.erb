@@ -1,0 +1,13 @@
+<div class="row">
+  <div class="col-md-12">
+    <h1>Categories</h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+	<% @categories.each do |category| %>
+	  <h5><%= category.name %></h5>
+	<% end %>
+  </div>
+</div>
