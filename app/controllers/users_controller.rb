@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   def index
     if session[:user_id]
-      redirect_to(edit_user_path(session[:user_id]))
+      redirect_to(categories_path)
     end
   end
   
@@ -48,6 +48,6 @@ class UsersController < ApplicationController
       flash[:notice] = "Please enter a valid email address."
     end
     
-    redirect_to(users_path)
+    redirect_to(edit_user_path(session[:user_id]))
   end
 end

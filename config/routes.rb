@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get '/users/edit/:user_id' => 'users#edit', as: 'edit_user'
   get '/users/modify/:user_id' => 'users#modify', as: 'modify_user'
   
+  get '/categories' => 'categories#index', as: 'categories'
+  
   get '*path' => redirect("/")
   
   # The priority is based upon order of creation: first created -> highest priority.
