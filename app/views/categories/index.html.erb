@@ -3,11 +3,13 @@
     <h1>Categories</h1>
   </div>
 </div>
-
+<br>
 <div class="row">
-  <div class="col-md-6">
-	<% @categories.each do |category| %>
-	  <h5><%= link_to category.name, show_category_path(category) %></h5>
-	<% end %>
+  <div class="col-md-12">
+	<ul class="list-group">
+	  <% @categories.each do |category| %>
+	    <li class="list-group-item"><%= link_to category.name, show_category_path(category) %></li>
+	  <% end %>
+	</ul>
   </div>
 </div>

@@ -1,17 +1,17 @@
 class CategoriesController < ApplicationController
-  def index
-    unless session[:user_id]
+  before_action :authenticate
+  
+  def authenticate
+    if !session[:user_id]
       redirect_to(root_path)
     end
-    
+  end
+  
+  def index
     @categories = Category.find_each
   end
   
   def show
-    unless session[:user_id]
-      redirect_to(root_path)
-    end
-    
     begin
       @category = Category.find(params[:category_id])[:name]
       @items = Item.where(category_id: params[:category_id])
