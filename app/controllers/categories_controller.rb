@@ -2,7 +2,7 @@ class CategoriesController < ApplicationController
   before_action :authenticate
   
   def authenticate
-    if !session[:user_id]
+    if !session[:user_guid]
       redirect_to(root_path)
     end
   end

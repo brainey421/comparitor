@@ -3,7 +3,8 @@ Rails.application.routes.draw do
   root to: "users#index"
   
   get '/users' => 'users#index', as: 'users'
-  get '/users/login' => 'users#login', as: 'login_user'
+  get '/users/email' => 'users#email', as: 'email_user'
+  get '/users/login/:user_guid' => 'users#login', as: 'login_user'
   get '/users/logout' => 'users#logout', as: 'logout_user'
   get '/users/edit/:user_id' => 'users#edit', as: 'edit_user'
   get '/users/modify/:user_id' => 'users#modify', as: 'modify_user'
