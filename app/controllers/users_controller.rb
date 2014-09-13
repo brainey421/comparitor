@@ -21,17 +21,21 @@ class UsersController < ApplicationController
   
   def email
     begin
-      unless User.find_by(email: params[:user_email])
+      u = User.find_by(email: params[:user_email])
+      if u
+        u.guid = SecureRandom.uuid
+        u.save
+      else
         u = User.new
         u.email = params[:user_email]
         u.guid = SecureRandom.uuid
         u.save
       end
-      
-      @email = params[:user_email]
-      
-      # TODO: Send email
-    rescue
+
+      Mailer.send_login_email(u, request.host + ":" + request.port.to_s + login_user_path(u.guid)).deliver
+      @email = u.email
+    rescue Exception => e  
+      puts e.message  
       flash[:notice] = "Please enter a valid email address."
       redirect_to(root_path)
     end
