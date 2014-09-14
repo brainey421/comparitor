@@ -14,7 +14,7 @@
 		</tr>
 	    <% @items.each do |item| %>
 	      <tr>
-			<td class="col-md-2"><%= link_to item.name, item.link, {target: "_blank"} %></td>
+			<td class="col-md-3"><%= link_to item.name, item.link, {target: "_blank"} %></td>
 			<td><%= item.description %></td>
 		  </tr>
 	    <% end %>

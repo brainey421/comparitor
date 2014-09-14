@@ -6,10 +6,19 @@
 <br>
 <div class="row">
   <div class="col-md-12">
-	<ul class="list-group">
-	  <% @categories.each do |category| %>
-	    <li class="list-group-item"><%= link_to category.name, show_category_path(category) %></li>
-	  <% end %>
-	</ul>
+  	<div class="panel panel-default">
+  	  <table class="table">
+  		<tr>
+  	      <th>Category</th>
+  		  <th>2-Way Comparison</th>
+  		</tr>
+  	    <% @categories.each do |category| %>
+  	      <tr>
+  			<td class="col-md-3"><%= link_to category.name, show_category_path(category) %></td>
+  			<td>Start ranking!</td>
+  		  </tr>
+  	    <% end %>
+  	  </table>
+    </div>
   </div>
 </div>
