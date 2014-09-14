@@ -4,12 +4,12 @@ class UsersController < ApplicationController
   def authenticate
     begin
       if !session[:user_guid]
-        redirect_to(root_path)
+        redirect_to(logout_user_path)
       elsif session[:user_guid] != User.find_by(id: params[:user_id].to_i).guid
-        redirect_to(edit_user_path(session[:user_id]))
+        redirect_to(logout_user_path)
       end
     rescue
-      redirect_to(root_path)
+      redirect_to(logout_user_path)
     end
   end
   

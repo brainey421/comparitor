@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   get '/categories' => 'categories#index', as: 'categories'
   get '/categories/show/:category_id' => 'categories#show', as: 'show_category'
   
+  get '/comparisons/:item_id1/:item_id2' => 'comparisons#show', as: 'show_comparison'
+  
   get '*path' => redirect("/")
   
   # The priority is based upon order of creation: first created -> highest priority.

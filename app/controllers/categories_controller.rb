@@ -3,7 +3,7 @@ class CategoriesController < ApplicationController
   
   def authenticate
     if !session[:user_guid]
-      redirect_to(root_path)
+      redirect_to(logout_user_path)
     end
   end
   
