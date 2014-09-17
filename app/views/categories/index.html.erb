@@ -15,7 +15,7 @@
   	    <% @categories.each do |category| %>
   	      <tr>
   			<td class="col-md-3"><%= link_to category.name, show_category_path(category) %></td>
-  			<td>Start comparing!</td>
+  			<td><%= link_to "Start comparing!", assign_comparison_path(category) %></td>
   		  </tr>
   	    <% end %>
   	  </table>

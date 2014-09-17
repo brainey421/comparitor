@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get '/categories' => 'categories#index', as: 'categories'
   get '/categories/show/:category_id' => 'categories#show', as: 'show_category'
   
+  get '/comparisons/assign/:category_id' => 'comparisons#assign', as: 'assign_comparison'
   get '/comparisons/:item_id1/:item_id2' => 'comparisons#show', as: 'show_comparison'
   
   get '*path' => redirect("/")

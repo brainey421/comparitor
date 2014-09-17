@@ -20,6 +20,11 @@ class UsersController < ApplicationController
   end
   
   def email
+    if params[:user_email] == ""
+      flash[:notice] = "Please enter a valid email address."
+      redirect_to(root_path)
+    end
+    
     begin
       u = User.find_by(email: params[:user_email])
       if u
