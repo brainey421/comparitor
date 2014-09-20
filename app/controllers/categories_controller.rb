@@ -2,7 +2,13 @@ class CategoriesController < ApplicationController
   before_action :authenticate
   
   def authenticate
-    if !session[:user_guid]
+    begin
+      if !session[:user_guid]
+        redirect_to(logout_user_path)
+      elsif session[:user_guid] != User.find_by(id: session[:user_id].to_i).guid
+        redirect_to(logout_user_path)
+      end
+    rescue
       redirect_to(logout_user_path)
     end
   end

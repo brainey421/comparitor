@@ -5,6 +5,8 @@ class UsersController < ApplicationController
     begin
       if !session[:user_guid]
         redirect_to(logout_user_path)
+      elsif session[:user_guid] != User.find_by(id: session[:user_id].to_i).guid
+        redirect_to(logout_user_path)
       elsif session[:user_guid] != User.find_by(id: params[:user_id].to_i).guid
         redirect_to(logout_user_path)
       end
@@ -21,7 +23,7 @@ class UsersController < ApplicationController
   
   def email
     if params[:user_email] == ""
-      flash[:notice] = "Please enter a valid email address."
+      flash[:error] = "Please enter a valid email address."
       redirect_to(root_path)
     end
     
@@ -40,7 +42,7 @@ class UsersController < ApplicationController
       Mailer.send_login_email(u, "http://" + request.host + ":" + request.port.to_s + login_user_path(u.guid)).deliver
       @email = u.email
     rescue
-      flash[:notice] = "Please enter a valid email address."
+      flash[:error] = "Please enter a valid email address."
       redirect_to(root_path)
     end
   end
@@ -52,16 +54,28 @@ class UsersController < ApplicationController
         session[:user_email] = u.email
         session[:user_guid] = u.guid
       else
-        flash[:notice] = "To log in, please follow the link sent to you via email."
+        flash[:error] = "Please log in again, and follow the link sent to you via email."
       end
     rescue
-      flash[:notice] = "To log in, please follow the link sent to you via email."
+      flash[:error] = "Please log in again, and follow the link sent to you via email."
     end
     
     redirect_to(root_path)
   end
   
   def logout
+    begin
+      u = User.find(session[:user_id])
+      if u
+        u.guid = SecureRandom.uuid
+        u.save
+      end
+    rescue
+      
+    end
+    
+    flash[:notice] = "When you log in next time, we'll send you a new login link via email."
+    
     session[:user_id] = nil
     session[:user_email] = nil
     session[:user_guid] = nil
@@ -81,7 +95,7 @@ class UsersController < ApplicationController
     
       session[:user_email] = params[:user_email]
     rescue
-      flash[:notice] = "Please enter a valid email address."
+      flash[:error] = "Please enter a valid email address."
     end
     
     redirect_to(edit_user_path(session[:user_id]))
