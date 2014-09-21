@@ -13,9 +13,48 @@
 
 ActiveRecord::Schema.define(version: 0) do
 
-  create_table "users", id: false, force: true do |t|
-    t.integer "id"
-    t.string  "email", limit: 64
+  create_table "categories", force: true do |t|
+    t.string "name", limit: 128, default: "", null: false
   end
+
+  create_table "comparisons", force: true do |t|
+    t.integer "user_id",     null: false
+    t.integer "study_id"
+    t.integer "category_id"
+  end
+
+  create_table "items", force: true do |t|
+    t.integer "study_id",                              null: false
+    t.string  "name",        limit: 128,  default: "", null: false
+    t.string  "description", limit: 1024, default: "", null: false
+    t.string  "link",        limit: 256
+  end
+
+  create_table "members", force: true do |t|
+    t.integer "category_id",                           null: false
+    t.string  "name",        limit: 128,  default: "", null: false
+    t.string  "description", limit: 1024, default: "", null: false
+    t.string  "link",        limit: 256,  default: "", null: false
+  end
+
+  create_table "ranks", force: true do |t|
+    t.integer "comparison_id", null: false
+    t.integer "item_id",       null: false
+    t.integer "rank",          null: false
+  end
+
+  create_table "studies", force: true do |t|
+    t.integer "user_id",                          null: false
+    t.string  "name",    limit: 128, default: "", null: false
+    t.boolean "active",                           null: false
+  end
+
+  create_table "users", force: true do |t|
+    t.string "email", limit: 64, default: "", null: false
+    t.string "guid",  limit: 64, default: "", null: false
+  end
+
+  add_index "users", ["email"], name: "email", unique: true, using: :btree
+  add_index "users", ["guid"], name: "guid", unique: true, using: :btree
 
 end

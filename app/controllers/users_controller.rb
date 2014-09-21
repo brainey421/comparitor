@@ -17,7 +17,7 @@ class UsersController < ApplicationController
   
   def index
     if session[:user_guid]
-      redirect_to(categories_path)
+      redirect_to(studies_path)
     end
   end
   
@@ -25,6 +25,7 @@ class UsersController < ApplicationController
     if params[:user_email] == ""
       flash[:error] = "Please enter a valid email address."
       redirect_to(root_path)
+      return
     end
     
     begin
@@ -49,38 +50,33 @@ class UsersController < ApplicationController
   
   def login
     begin
-      if u = User.find_by(guid: params[:user_guid])
-        session[:user_id] = u.id
-        session[:user_email] = u.email
-        session[:user_guid] = u.guid
-      else
-        flash[:error] = "Please log in again, and follow the link sent to you via email."
-      end
+      u = User.find_by(guid: params[:user_guid])
+      session[:user_id] = u.id
+      session[:user_email] = u.email
+      session[:user_guid] = u.guid
     rescue
       flash[:error] = "Please log in again, and follow the link sent to you via email."
+    ensure
+      redirect_to(root_path)
     end
-    
-    redirect_to(root_path)
   end
   
   def logout
     begin
       u = User.find(session[:user_id])
-      if u
-        u.guid = SecureRandom.uuid
-        u.save
-      end
+      u.guid = SecureRandom.uuid
+      u.save
     rescue
       
+    ensure
+      flash[:notice] = "When you log in next time, we'll send you a new login link via email."
+    
+      session[:user_id] = nil
+      session[:user_email] = nil
+      session[:user_guid] = nil
+    
+      redirect_to(root_path)
     end
-    
-    flash[:notice] = "When you log in next time, we'll send you a new login link via email."
-    
-    session[:user_id] = nil
-    session[:user_email] = nil
-    session[:user_guid] = nil
-    
-    redirect_to(root_path)
   end
   
   def edit
@@ -92,12 +88,11 @@ class UsersController < ApplicationController
       u = User.find(params[:user_id])
       u.email = params[:user_email]
       u.save
-    
       session[:user_email] = params[:user_email]
     rescue
       flash[:error] = "Please enter a valid email address."
+    ensure
+      redirect_to(edit_user_path(session[:user_id]))
     end
-    
-    redirect_to(edit_user_path(session[:user_id]))
   end
 end

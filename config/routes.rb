@@ -16,7 +16,9 @@ Rails.application.routes.draw do
   get '/studies/new' => 'studies#new', as: 'new_study'
   get '/studies/list/:user_id' => 'studies#list', as: 'list_study'
   get '/studies/edit/:study_id' => 'studies#edit', as: 'edit_study'
+  get '/studies/destroy/:study_id' => 'studies#destroy', as: 'destroy_study'
   get '/studies/add_to/:study_id' => 'studies#add_to', as: 'add_to_study'
+  get '/studies/remove_from/:study_id/:item_id' => 'studies#remove_from', as: 'remove_from_study'
   
   get '/comparisons/assign/:category_id' => 'comparisons#assign', as: 'assign_comparison'
   get '/comparisons/show/:member_id1/:member_id2' => 'comparisons#show', as: 'show_comparison'

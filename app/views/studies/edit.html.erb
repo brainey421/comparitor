@@ -6,19 +6,19 @@
 <br>
 <div class="row">
   <%= form_tag add_to_study_path, method: "get" do %>
-    <div class="col-lg-5">
+    <div class="col-md-5">
       <div class="input-group">
         <span class="input-group-addon">new item</span>
         <input name="item_name" type="text" class="form-control" placeholder="Name">
       </div>
     </div>
-    <div class="col-lg-5">
+    <div class="col-md-5">
       <div class="input-group">
 		<span class="input-group-addon">description</span>
         <input name="item_description" type="text" class="form-control" placeholder="Description">
       </div>
     </div>
-	<div class="col-lg-2">
+	<div class="col-md-2">
 	  <button class="btn btn-primary">add item</button>
 	</div>
   <% end %>
@@ -35,7 +35,17 @@
 		<% @items.each do |item| %>
 		  <tr>
 		  	<td class="col-md-3"><%= item.name %></td>
-			<td><%= item.description %></td>
+			<td class="col-md-7"><%= item.description %></td>
+			<td class="col-md-2">
+			  <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-danger dropdown-toggle" data-toggle="dropdown">
+                  delete <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li><%= link_to "delete item forever", remove_from_study_path(@study.id, item.id) %></li>
+                </ul>
+              </div>
+			</td>
 		  </tr>
 		<% end %>
 	  </table>

@@ -44,27 +44,53 @@ class StudiesController < ApplicationController
     begin
       @study = Study.find(params[:study_id])
       if @study.user_id != session[:user_id] || @study.active == true
-        redirect_to(studies_path)
+        redirect_to(list_study_path(session[:user_id]))
+        return
       end
       
       @items = Item.where(study_id: params[:study_id])
     rescue
-      redirect_to(studies_path)
+      redirect_to(list_study_path(session[:user_id]))
+    end
+  end
+  
+  def destroy
+    begin
+      study = Study.find(params[:study_id])
+      unless study.user_id != session[:user_id] || study.active == true
+        study.destroy
+      end 
+    rescue
+      
+    ensure
+      redirect_to(list_study_path(session[:user_id]))
     end
   end
   
   def add_to
     begin
       study = Study.find(params[:study_id])
-      if study.user_id != session[:user_id] || study.active == true
-        redirect_to(studies_path)
+      unless study.user_id != session[:user_id] || study.active == true
+        i = Item.new
+        i.study_id = params[:study_id]
+        i.name = params[:item_name]
+        i.description = params[:item_description]
+        i.save
       end
-      
-      i = Item.new
-      i.study_id = params[:study_id]
-      i.name = params[:item_name]
-      i.description = params[:item_description]
-      i.save
+    rescue
+    
+    ensure
+      redirect_to(edit_study_path(params[:study_id]))
+    end
+  end
+  
+  def remove_from
+    begin
+      study = Study.find(params[:study_id])
+      unless study.user_id != session[:user_id] || study.active == true
+        i = Item.find(params[:item_id])
+        i.destroy
+      end
     rescue
     
     ensure

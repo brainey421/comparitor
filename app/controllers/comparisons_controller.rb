@@ -34,6 +34,7 @@ class ComparisonsController < ApplicationController
     
       if @member1 == @member2 || @member1.category_id != @member2.category_id
         redirect_to(categories_path)
+        return
       end
     
       @category_name = Category.find(@member1.category_id).name
