@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="col-md-12">
+    <h1>Studies</h1>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-md-12">
+  	<div class="panel panel-default">
+  	  <table class="table">
+  		<tr>
+  	      <th>Study</th>
+		  <th>Originator</th>
+  		</tr>
+  	    <% @studies.each do |study| %>
+  	      <tr>
+  			<td class="col-md-3"><%= study.name %></td>
+			<td class="col-md-9"><%= link_to User.find(study.user_id).email, list_study_path(study.user_id) %></td>
+  		  </tr>
+  	    <% end %>
+  	  </table>
+    </div>
+  </div>
+</div>

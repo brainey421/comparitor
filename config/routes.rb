@@ -12,8 +12,14 @@ Rails.application.routes.draw do
   get '/categories' => 'categories#index', as: 'categories'
   get '/categories/show/:category_id' => 'categories#show', as: 'show_category'
   
+  get '/studies' => 'studies#index', as: 'studies'
+  get '/studies/new' => 'studies#new', as: 'new_study'
+  get '/studies/list/:user_id' => 'studies#list', as: 'list_study'
+  get '/studies/edit/:study_id' => 'studies#edit', as: 'edit_study'
+  get '/studies/add_to/:study_id' => 'studies#add_to', as: 'add_to_study'
+  
   get '/comparisons/assign/:category_id' => 'comparisons#assign', as: 'assign_comparison'
-  get '/comparisons/:item_id1/:item_id2' => 'comparisons#show', as: 'show_comparison'
+  get '/comparisons/show/:member_id1/:member_id2' => 'comparisons#show', as: 'show_comparison'
   
   get '*path' => redirect("/")
   

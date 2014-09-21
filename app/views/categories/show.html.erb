@@ -12,10 +12,10 @@
 	      <th>Name</th>
 		  <th>Description</th>
 		</tr>
-	    <% @items.each do |item| %>
+	    <% @members.each do |member| %>
 	      <tr>
-			<td class="col-md-3"><%= link_to item.name, item.link, {target: "_blank"} %></td>
-			<td><%= item.description %></td>
+			<td class="col-md-3"><%= link_to member.name, member.link, {target: "_blank"} %></td>
+			<td><%= member.description %></td>
 		  </tr>
 	    <% end %>
 	  </table>

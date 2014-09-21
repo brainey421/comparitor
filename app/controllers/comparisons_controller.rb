@@ -15,13 +15,13 @@ class ComparisonsController < ApplicationController
   
   def assign
     begin
-      @items = Item.where(category_id: params[:category_id])
-      item_id1 = rand(@items.size)
-      item_id2 = rand(@items.size)
-      while item_id1 == item_id2
-        item_id2 = rand(@items.size)
+      @members = Member.where(category_id: params[:category_id])
+      member_id1 = rand(@members.size)
+      member_id2 = rand(@members.size)
+      while member_id1 == member_id2
+        member_id2 = rand(@members.size)
       end
-      redirect_to(show_comparison_path(@items[item_id1], @items[item_id2]))
+      redirect_to(show_comparison_path(@members[member_id1], @members[member_id2]))
     rescue
       redirect_to(categories_path)
     end
@@ -29,14 +29,14 @@ class ComparisonsController < ApplicationController
   
   def show
     begin
-      @item1 = Item.find(params[:item_id1])
-      @item2 = Item.find(params[:item_id2])
+      @member1 = Member.find(params[:member_id1])
+      @member2 = Member.find(params[:member_id2])
     
-      if @item1 == @item2 || @item1.category_id != @item2.category_id
+      if @member1 == @member2 || @member1.category_id != @member2.category_id
         redirect_to(categories_path)
       end
     
-      @category_name = Category.find(@item1.category_id).name
+      @category_name = Category.find(@member1.category_id).name
     rescue
       redirect_to(categories_path)
     end

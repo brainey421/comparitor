@@ -39,7 +39,7 @@ class UsersController < ApplicationController
         u.save
       end
 
-      Mailer.send_login_email(u, "http://" + request.host + ":" + request.port.to_s + login_user_path(u.guid)).deliver
+      Mailer.send_login_email(u, "http://" + request.host_with_port + login_user_path(u.guid)).deliver
       @email = u.email
     rescue
       flash[:error] = "Please enter a valid email address."

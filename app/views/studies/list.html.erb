@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-md-12">
+    <h1><%= link_to "Studies:", studies_path %> <%= @email %></h1>
+  </div>
+</div>
+<% if @email == session[:user_email]%>
+  <br>
+  <div class="row">
+    <%= form_tag new_study_path, method: "get" do %>
+      <div class="col-lg-5">
+        <div class="input-group">
+          <span class="input-group-addon">new study</span>
+          <input name="study_name" type="text" class="form-control" placeholder="Name">
+        </div>
+      </div>
+	  <div class="col-lg-7">
+	    <button class="btn btn-primary">add study</button>
+	  </div>
+    <% end %>
+  </div>
+<% end %>
+<br>
+<div class="row">
+  <div class="col-md-12">
+  	<div class="panel panel-default">
+  	  <table class="table">
+  		<tr>
+  	      <th>Study</th>
+  		</tr>
+  	    <% @studies.each do |study| %>
+  	      <tr>
+  			<td class="col-md-3"><%= study.name %></td>
+			<% if study.user_id == session[:user_id] && study.active == false %>
+			  <td class="col-md-9"><%= link_to "edit", edit_study_path(study.id) %></td>
+			<% end %>
+  		  </tr>
+  	    <% end %>
+  	  </table>
+    </div>
+  </div>
+</div>

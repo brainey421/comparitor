@@ -20,7 +20,7 @@ class CategoriesController < ApplicationController
   def show
     begin
       @category = Category.find(params[:category_id])[:name]
-      @items = Item.where(category_id: params[:category_id])
+      @members = Member.where(category_id: params[:category_id])
     rescue
       redirect_to(categories_path)
     end
