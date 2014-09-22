@@ -9,15 +9,13 @@ Rails.application.routes.draw do
   get '/users/edit/:user_id' => 'users#edit', as: 'edit_user'
   get '/users/modify/:user_id' => 'users#modify', as: 'modify_user'
   
-  get '/categories' => 'categories#index', as: 'categories'
-  get '/categories/show/:category_id' => 'categories#show', as: 'show_category'
-  
   get '/studies' => 'studies#index', as: 'studies'
   get '/studies/new' => 'studies#new', as: 'new_study'
   get '/studies/list/:user_id' => 'studies#list', as: 'list_study'
   get '/studies/edit/:study_id' => 'studies#edit', as: 'edit_study'
   get '/studies/destroy/:study_id' => 'studies#destroy', as: 'destroy_study'
   get '/studies/add_to/:study_id' => 'studies#add_to', as: 'add_to_study'
+  get '/studies/import_to/:study_id' => 'studies#import_to', as: 'import_to_study'
   get '/studies/remove_from/:study_id/:item_id' => 'studies#remove_from', as: 'remove_from_study'
   
   get '/comparisons/assign/:category_id' => 'comparisons#assign', as: 'assign_comparison'

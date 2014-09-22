@@ -25,6 +25,20 @@
 </div>
 <br>
 <div class="row">
+  <%= form_tag import_to_study_path, method: "get" do %>
+    <div class="col-md-10">
+      <div class="input-group">
+        <span class="input-group-addon">import items from Wikipedia category</span>
+        <input name="category_name" type="text" class="form-control" placeholder="Category">
+      </div>
+    </div>
+	<div class="col-md-2">
+	  <button class="btn btn-primary">import category</button>
+	</div>
+  <% end %>
+</div>
+<br>
+<div class="row">
   <div class="col-md-12">
 	<div class="panel panel-default">
 	  <table class="table">
@@ -34,7 +48,11 @@
 		</tr>
 		<% @items.each do |item| %>
 		  <tr>
-		  	<td class="col-md-3"><%= item.name %></td>
+			<% if item.link %>
+		  	  <td class="col-md-3"><%= link_to item.name, item.link, {target: "_blank"} %></td>
+			<% else%>
+			  <td class="col-md-3"><%= item.name %></td>
+			<% end %>
 			<td class="col-md-7"><%= item.description %></td>
 			<td class="col-md-2">
 			  <div class="btn-group">

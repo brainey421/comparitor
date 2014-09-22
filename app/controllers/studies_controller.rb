@@ -57,6 +57,10 @@ class StudiesController < ApplicationController
   def destroy
     begin
       study = Study.find(params[:study_id])
+      items = Item.where(study_id: params[:study_id])
+      items.each do |item|
+        item.destroy
+      end
       unless study.user_id != session[:user_id] || study.active == true
         study.destroy
       end 
@@ -78,7 +82,45 @@ class StudiesController < ApplicationController
         i.save
       end
     rescue
+      
+    ensure
+      redirect_to(edit_study_path(params[:study_id]))
+    end
+  end
+  
+  def import_to
+    begin
+      study = Study.find(params[:study_id])
+      unless study.user_id != session[:user_id] || study.active == true
+        sparql = SPARQL::Client.new("http://dbpedia.org/sparql")
+        category = params[:category_name].gsub ' ', '_'
+        items = sparql.query("SELECT ?name ?description ?link
+        WHERE {
+        ?name <http://purl.org/dc/terms/subject> <http://dbpedia.org/resource/Category:#{category}> .
+        ?name <http://www.w3.org/2000/01/rdf-schema#comment> ?description . 
+        ?name <http://xmlns.com/foaf/0.1/isPrimaryTopicOf> ?link .
+        FILTER (LANG(?description) = 'en')
+        }")
+        
+        unless items.size < 1
+          items.each do |item|
+            description = item[:description].to_s
+            link = item[:link].to_s
     
+            name = link.split("\n").grep(/http:\/\/en.wikipedia.org\/wiki\/(.*)/){$1}[0]
+            name = name.gsub '_', ' '
+            
+            i = Item.new
+            i.study_id = params[:study_id]
+            i.name = name
+            i.description = description
+            i.link = link
+            i.save
+          end
+        end
+      end
+    rescue
+      
     ensure
       redirect_to(edit_study_path(params[:study_id]))
     end

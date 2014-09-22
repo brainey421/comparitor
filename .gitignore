@@ -23,3 +23,6 @@
 /scripts/restart_mysql.sh
 /scripts/start_mysql.sh
 /scripts/stop_mysql.sh
+
+# Ignore outdated scripts
+/scripts/load_category.rb

@@ -19,7 +19,6 @@
 	
 	<% if session[:user_id] && session[:user_email] %>
 	  <ul class="nav navbar-nav navbar-left">
-	    <li><%= link_to "Categories", categories_path %></li>
 		<li><%= link_to "Studies", studies_path %></li>
 		<li><%= link_to "My Studies", list_study_path(session[:user_id]) %></li>
 	  </ul>
