@@ -26,6 +26,15 @@ class StudiesController < ApplicationController
     end
   end
   
+  def show
+    begin
+      @study = Study.find(params[:study_id])
+      @items = Item.where(study_id: params[:study_id])
+    rescue
+      redirect_to(studies_path)
+    end
+  end
+  
   def new
     begin
       s = Study.new
@@ -50,6 +59,20 @@ class StudiesController < ApplicationController
       
       @items = Item.where(study_id: params[:study_id])
     rescue
+      redirect_to(list_study_path(session[:user_id]))
+    end
+  end
+  
+  def activate
+    begin
+      study = Study.find(params[:study_id])
+      unless study.user_id != session[:user_id]
+        study.active = true
+      end
+      study.save
+    rescue
+      
+    ensure
       redirect_to(list_study_path(session[:user_id]))
     end
   end

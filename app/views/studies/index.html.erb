@@ -14,7 +14,7 @@
   		</tr>
   	    <% @studies.each do |study| %>
   	      <tr>
-  			<td class="col-md-3"><%= study.name %></td>
+  			<td class="col-md-3"><%= link_to study.name, show_study_path(study.id) %></td>
 			<td class="col-md-9"><%= link_to User.find(study.user_id).email, list_study_path(study.user_id) %></td>
   		  </tr>
   	    <% end %>

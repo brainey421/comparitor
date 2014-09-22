@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="col-md-12">
+    <h1><%= link_to "Studies:", studies_path %> <%= @study.name %></h1>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-md-12">
+	<div class="panel panel-default">
+	  <table class="table">
+		<tr>
+	      <th>Item</th>
+		  <th>Description</th>
+		</tr>
+		<% @items.each do |item| %>
+		  <tr>
+			<% if item.link %>
+		  	  <td class="col-md-3"><%= link_to item.name, item.link, {target: "_blank"} %></td>
+			<% else %>
+			  <td class="col-md-3"><%= item.name %></td>
+			<% end %>
+			<td class="col-md-9"><%= item.description %></td>
+		  </tr>
+		<% end %>
+	  </table>
+    </div>
+  </div>
+</div>

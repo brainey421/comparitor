@@ -45,16 +45,17 @@
 		<tr>
 	      <th>Item</th>
 		  <th>Description</th>
+		  <th>Options</th>
 		</tr>
 		<% @items.each do |item| %>
 		  <tr>
 			<% if item.link %>
 		  	  <td class="col-md-3"><%= link_to item.name, item.link, {target: "_blank"} %></td>
-			<% else%>
+			<% else %>
 			  <td class="col-md-3"><%= item.name %></td>
 			<% end %>
-			<td class="col-md-7"><%= item.description %></td>
-			<td class="col-md-2">
+			<td class="col-md-8"><%= item.description %></td>
+			<td class="col-md-1">
 			  <div class="btn-group">
                 <button type="button" class="btn btn-sm btn-danger dropdown-toggle" data-toggle="dropdown">
                   delete <span class="caret"></span>
