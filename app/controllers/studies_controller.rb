@@ -1,6 +1,10 @@
 class StudiesController < ApplicationController
   before_action :authenticate
   
+  # If user is not properly authenticated, 
+  # e.g., if the user has no GUID, 
+  # or if the GUID does not match the user ID in the session,
+  # then log the user out.
   def authenticate
     begin
       if !session[:user_guid]
@@ -13,28 +17,32 @@ class StudiesController < ApplicationController
     end
   end
   
+  # If authenticated, display page with list of active studies.
   def index
     @studies = Study.find_each
   end
   
-  def list
-    begin
-      @email = User.find(params[:user_id]).email
-      @studies = Study.where(user_id: params[:user_id])
-    rescue
-      redirect_to(studies_path)
-    end
+  # If authenticated, display page to manage user's studies.
+  def manage
+    @studies = Study.where(user_id: params[:user_id])
   end
   
+  # If authenticated, and if study is active, 
+  # display items in some study.
   def show
     begin
       @study = Study.find(params[:study_id])
       @items = Item.where(study_id: params[:study_id])
+      
+      if @study.active == false
+        redirect_to(studies_path)
+      end
     rescue
       redirect_to(studies_path)
     end
   end
   
+  # If authenticated, create new study.
   def new
     begin
       s = Study.new
@@ -45,24 +53,28 @@ class StudiesController < ApplicationController
     rescue
       
     ensure
-      redirect_to(list_study_path(session[:user_id]))
+      redirect_to(manage_study_path(session[:user_id]))
     end
   end
   
+  # If authenticated, if study belongs to user, and if study is inactive
+  # display page to edit study.
   def edit
     begin
       @study = Study.find(params[:study_id])
       if @study.user_id != session[:user_id] || @study.active == true
-        redirect_to(list_study_path(session[:user_id]))
+        redirect_to(manage_study_path(session[:user_id]))
         return
       end
       
       @items = Item.where(study_id: params[:study_id])
     rescue
-      redirect_to(list_study_path(session[:user_id]))
+      redirect_to(manage_study_path(session[:user_id]))
     end
   end
   
+  # If authenticated, and if study belongs to user, 
+  # activate study.
   def activate
     begin
       study = Study.find(params[:study_id])
@@ -73,27 +85,32 @@ class StudiesController < ApplicationController
     rescue
       
     ensure
-      redirect_to(list_study_path(session[:user_id]))
+      redirect_to(manage_study_path(session[:user_id]))
     end
   end
   
+  # If authenticated, and if study belongs to user, 
+  # destroy study and items in study.
   def destroy
     begin
       study = Study.find(params[:study_id])
       items = Item.where(study_id: params[:study_id])
-      items.each do |item|
-        item.destroy
-      end
-      unless study.user_id != session[:user_id] || study.active == true
+      
+      unless study.user_id != session[:user_id]
+        items.each do |item|
+          item.destroy
+        end
         study.destroy
       end 
     rescue
       
     ensure
-      redirect_to(list_study_path(session[:user_id]))
+      redirect_to(manage_study_path(session[:user_id]))
     end
   end
   
+  # If authenicated, if study belongs to user, and if study is inactive, 
+  # add item to study.
   def add_to
     begin
       study = Study.find(params[:study_id])
@@ -111,6 +128,8 @@ class StudiesController < ApplicationController
     end
   end
   
+  # If authenicated, if study belongs to user, and if study is inactive, 
+  # import items in category to study.
   def import_to
     begin
       study = Study.find(params[:study_id])
@@ -149,6 +168,8 @@ class StudiesController < ApplicationController
     end
   end
   
+  # If authenicated, if study belongs to user, and if study is inactive, 
+  # remove item from study.
   def remove_from
     begin
       study = Study.find(params[:study_id])

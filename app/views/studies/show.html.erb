@@ -1,6 +1,10 @@
 <div class="row">
   <div class="col-md-12">
-    <h1><%= link_to "Studies:", studies_path %> <%= @study.name %></h1>
+	<% if @study.user_id == session[:user_id] %>
+	  <h1><%= link_to "My Studies:", manage_study_path(session[:user_id]) %> <%= @study.name %></h1>
+	<% else %>
+      <h1><%= link_to "Studies:", studies_path %> <%= @study.name %></h1>
+	<% end %>
   </div>
 </div>
 <br>
