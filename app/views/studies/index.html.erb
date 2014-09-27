@@ -18,9 +18,7 @@
   			  <td class="col-md-3"><%= link_to study.name, show_study_path(study.id) %></td>
 			  <td class="col-md-9">
   			    <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
-				    start comparing
-				  </button>
+				  <%= link_to raw("<button type=\"button\" class=\"btn btn-sm btn-primary dropdown-toggle\">start comparing</button>"), assign_comparison_path(study.id) %>
                 </div>
 			  </td>
   		    </tr>

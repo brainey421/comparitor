@@ -1,6 +1,10 @@
 class ComparisonsController < ApplicationController
   before_action :authenticate
   
+  # If user is not properly authenticated, 
+  # e.g., if the user has no GUID, 
+  # or if the GUID does not match the user ID in the session,
+  # then log the user out.
   def authenticate
     begin
       if !session[:user_guid]
@@ -13,31 +17,35 @@ class ComparisonsController < ApplicationController
     end
   end
   
+  # If authenticated, redirect to comparison view for 
+  # two random items in specified study.
   def assign
     begin
-      @members = Member.where(category_id: params[:category_id])
-      member_id1 = rand(@members.size)
-      member_id2 = rand(@members.size)
-      while member_id1 == member_id2
-        member_id2 = rand(@members.size)
+      @items = Item.where(study_id: params[:study_id])
+      item_id1 = rand(@items.size)
+      item_id2 = rand(@items.size)
+      while item_id1 == item_id2
+        item_id2 = rand(@items.size)
       end
-      redirect_to(show_comparison_path(@members[member_id1], @members[member_id2]))
+      redirect_to(show_comparison_path(@items[item_id1].id, @items[item_id2].id))
     rescue
-      redirect_to(categories_path)
+      redirect_to(studies_path)
     end
   end
   
+  # If authenticated, and if items are valid and study is active,
+  # show comparison view for two items.
   def show
     begin
-      @member1 = Member.find(params[:member_id1])
-      @member2 = Member.find(params[:member_id2])
+      @item1 = Item.find(params[:item_id1])
+      @item2 = Item.find(params[:item_id2])
     
-      if @member1 == @member2 || @member1.category_id != @member2.category_id
-        redirect_to(categories_path)
+      if @item1 == @item2 || @item1.study_id != @item2.study_id || Study.find(@item1.study_id).active == false
+        redirect_to(studies_path)
         return
       end
     
-      @category_name = Category.find(@member1.category_id).name
+      @study_name = Study.find(@item1.study_id).name
     rescue
       redirect_to(categories_path)
     end

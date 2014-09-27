@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-12">
-	<h1><%= link_to "Studies:", studies_path %> My Studies</h1>
+	<h1>My Studies</h1>
   </div>
 </div>
 <br>
@@ -45,9 +45,7 @@
 			  <% end %>
 			  <% if study.active == true %>
   			    <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
-				    start comparing
-				  </button>
+                  <%= link_to raw("<button type=\"button\" class=\"btn btn-sm btn-primary dropdown-toggle\">start comparing</button>"), assign_comparison_path(study.id) %>
                 </div>
 			  <% end %>
  		      <div class="btn-group">

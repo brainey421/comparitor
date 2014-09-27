@@ -27,14 +27,14 @@ class StudiesController < ApplicationController
     @studies = Study.where(user_id: params[:user_id])
   end
   
-  # If authenticated, and if study is active, 
+  # If authenticated, and if study is active or belongs to the user, 
   # display items in some study.
   def show
     begin
       @study = Study.find(params[:study_id])
       @items = Item.where(study_id: params[:study_id])
       
-      if @study.active == false
+      if @study.active == false && @study.user_id != session[:user_id]
         redirect_to(studies_path)
       end
     rescue
@@ -73,11 +73,17 @@ class StudiesController < ApplicationController
     end
   end
   
-  # If authenticated, and if study belongs to user, 
+  # If authenticated, and if study belongs to user, and if study has more than one item,
   # activate study.
   def activate
     begin
       study = Study.find(params[:study_id])
+      
+      if Item.where(study_id: params[:study_id]).size < 2
+        flash[:error] = "Your study must have at least 2 items before activation."
+        return
+      end
+      
       unless study.user_id != session[:user_id]
         study.active = true
       end

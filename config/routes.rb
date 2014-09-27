@@ -20,8 +20,8 @@ Rails.application.routes.draw do
   get '/studies/import_to/:study_id' => 'studies#import_to', as: 'import_to_study'
   get '/studies/remove_from/:study_id/:item_id' => 'studies#remove_from', as: 'remove_from_study'
   
-  get '/comparisons/assign/:category_id' => 'comparisons#assign', as: 'assign_comparison'
-  get '/comparisons/show/:member_id1/:member_id2' => 'comparisons#show', as: 'show_comparison'
+  get '/comparisons/assign/:study_id' => 'comparisons#assign', as: 'assign_comparison'
+  get '/comparisons/show/:item_id1/:item_id2' => 'comparisons#show', as: 'show_comparison'
   
   get '*path' => redirect("/")
   
