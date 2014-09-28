@@ -185,13 +185,17 @@ class StudiesController < ApplicationController
   end
   
   # If authenicated, if study belongs to user, and if study is inactive, 
-  # remove item from study.
+  # remove items as long as they belong to the study.
   def remove_from
     begin
       study = Study.find(params[:study_id])
-      unless study.user_id != session[:user_id] || study.active == true
-        i = Item.find(params[:item_id])
-        i.destroy
+      unless study.user_id != session[:user_id] || study.active
+        params[:items].each do |i|
+          item = Item.find(i)
+          unless item.study_id != params[:study_id].to_i
+            item.destroy
+          end
+        end
       end
     rescue
     
