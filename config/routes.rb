@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   
   get '/comparisons/assign/:study_id' => 'comparisons#assign', as: 'assign_comparison'
   get '/comparisons/show/:item_id1/:item_id2' => 'comparisons#show', as: 'show_comparison'
+  get '/comparisons/two_way/:item_id1/:rank1/:item_id2/:rank2' => 'comparisons#two_way', as: 'two_way_comparison'
   
   get '*path' => redirect("/")
   

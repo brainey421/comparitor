@@ -101,11 +101,21 @@ class StudiesController < ApplicationController
     begin
       study = Study.find(params[:study_id])
       items = Item.where(study_id: params[:study_id])
+      comparisons = Comparison.where(study_id: params[:study_id])
       
       unless study.user_id != session[:user_id]
         items.each do |item|
           item.destroy
         end
+        
+        comparisons.each do |comparison|
+          ranks = Rank.where(comparison_id: comparison.id)
+          ranks.each do |rank|
+            rank.destroy
+          end
+          comparison.destroy
+        end
+        
         study.destroy
       end 
     rescue
