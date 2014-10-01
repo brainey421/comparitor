@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   
   get '/studies' => 'studies#index', as: 'studies'
   get '/studies/new' => 'studies#new', as: 'new_study'
-  get '/studies/manage/:user_id' => 'studies#manage', as: 'manage_study'
+  get '/studies/manage' => 'studies#manage', as: 'manage_study'
   get '/studies/show/:study_id' => 'studies#show', as: 'show_study'
   get '/studies/edit/:study_id' => 'studies#edit', as: 'edit_study'
   get '/studies/activate/:study_id' => 'studies#activate', as: 'activate_study'

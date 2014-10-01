@@ -8,7 +8,7 @@ class StudiesController < ApplicationController
   def authenticate
     begin
       if !session[:user_guid]
-        redirect_to(logout_user_path)
+        redirect_to(root_path)
       elsif session[:user_guid] != User.find_by(id: session[:user_id].to_i).guid
         redirect_to(logout_user_path)
       end
@@ -24,7 +24,9 @@ class StudiesController < ApplicationController
   
   # If authenticated, display page to manage user's studies.
   def manage
-    @studies = Study.where(user_id: params[:user_id])
+    begin
+      @studies = Study.where(user_id: session[:user_id])
+    end
   end
   
   # If authenticated, and if study is active or belongs to the user, 
@@ -53,7 +55,7 @@ class StudiesController < ApplicationController
     rescue
       
     ensure
-      redirect_to(manage_study_path(session[:user_id]))
+      redirect_to(manage_study_path)
     end
   end
   
@@ -63,13 +65,13 @@ class StudiesController < ApplicationController
     begin
       @study = Study.find(params[:study_id])
       if @study.user_id != session[:user_id] || @study.active == true
-        redirect_to(manage_study_path(session[:user_id]))
+        redirect_to(manage_study_path)
         return
       end
       
       @items = Item.where(study_id: params[:study_id])
     rescue
-      redirect_to(manage_study_path(session[:user_id]))
+      redirect_to(manage_study_path)
     end
   end
   
@@ -79,19 +81,21 @@ class StudiesController < ApplicationController
     begin
       study = Study.find(params[:study_id])
       
+      if study.user_id != session[:user_id]
+        return
+      end
+      
       if Item.where(study_id: params[:study_id]).size < 2
         flash[:error] = "Your study must have at least 2 items before activation."
         return
       end
       
-      unless study.user_id != session[:user_id]
-        study.active = true
-      end
+      study.active = true
       study.save
     rescue
       
     ensure
-      redirect_to(manage_study_path(session[:user_id]))
+      redirect_to(manage_study_path)
     end
   end
   
@@ -121,7 +125,7 @@ class StudiesController < ApplicationController
     rescue
       
     ensure
-      redirect_to(manage_study_path(session[:user_id]))
+      redirect_to(manage_study_path)
     end
   end
   

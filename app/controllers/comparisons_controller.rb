@@ -8,7 +8,7 @@ class ComparisonsController < ApplicationController
   def authenticate
     begin
       if !session[:user_guid]
-        redirect_to(logout_user_path)
+        redirect_to(root_path)
       elsif session[:user_guid] != User.find_by(id: session[:user_id].to_i).guid
         redirect_to(logout_user_path)
       end
@@ -23,6 +23,12 @@ class ComparisonsController < ApplicationController
   def assign
     begin
       @items = Item.where(study_id: params[:study_id])
+      
+      if @items.size < 2
+        redirect_to(studies_path)
+        return
+      end
+      
       item_id1 = rand(@items.size)
       item_id2 = rand(@items.size)
       while item_id1 == item_id2
@@ -89,7 +95,7 @@ class ComparisonsController < ApplicationController
         return
       end
       
-      if params[:rank1].to_i < 1 || params[:rank1].to_i > 2 || params[:rank2].to_i < 1 || params[:rank2].to_i > 2
+      if params[:rank1].to_i < 1 || params[:rank1].to_i > 2 || params[:rank2].to_i < 1 || params[:rank2].to_i > 2 || (params[:rank1].to_i == 2 && params[:rank1] == params[:rank2])
         redirect_to(studies_path)
         return
       end

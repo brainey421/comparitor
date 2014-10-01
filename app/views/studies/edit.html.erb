@@ -46,7 +46,9 @@
 		  <tr>
 	        <th>Item</th>
 		    <th>Description</th>
-			<th><%= submit_tag "delete selected", :class => "btn btn-sm btn-danger" %></th>
+			<% unless @items.empty? %>
+			  <th><%= submit_tag "delete selected", :class => "btn btn-sm btn-danger" %></th>
+			<% end %>
 		  </tr>
 		  <% @items.each do |item| %>
 		    <tr>

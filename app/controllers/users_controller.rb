@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   def authenticate
     begin
       if !session[:user_guid]
-        redirect_to(logout_user_path)
+        redirect_to(root_path)
       elsif session[:user_guid] != User.find_by(id: session[:user_id].to_i).guid
         redirect_to(logout_user_path)
       elsif session[:user_guid] != User.find_by(id: params[:user_id].to_i).guid
