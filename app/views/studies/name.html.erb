@@ -1,0 +1,60 @@
+<div class="row">
+  <div class="col-md-12">
+    <h1>Studies: <%= @name %></h1>
+  </div>
+</div>
+<br>
+<div class="row">
+  <%= form_tag originator_study_path, method: "get" do %>
+    <div class="col-md-10">
+	  <div class="input-group">
+	    <span class="input-group-addon">search by originator</span>
+	    <input name="email" type="text" class="form-control" placeholder="email@example.com">
+      </div>
+	</div>
+	<div class="col-md-2">
+      <button class="btn btn-primary">search</button>
+    </div>
+  <% end %>
+</div>
+<br>
+<div class="row">
+  <%= form_tag name_study_path, method: "get" do %>
+    <div class="col-md-10">
+	  <div class="input-group">
+	    <span class="input-group-addon">search by name</span>
+	    <input name="study_name" type="text" class="form-control" placeholder="name">
+      </div>
+	</div>
+	<div class="col-md-2">
+      <button class="btn btn-primary">search</button>
+    </div>
+  <% end %>
+</div>
+<br>
+<div class="row">
+  <div class="col-md-12">
+  	<div class="panel panel-default">
+  	  <table class="table">
+  		<tr>
+  	      <th>Study</th>
+		  <th>Originator</th>
+		  <th>Options</th>
+  		</tr>
+  	    <% @studies.each do |study| %>
+		  <% if study.active == true %>
+  	        <tr>
+  			  <td class="col-md-3"><%= link_to study.name, show_study_path(study.id) %></td>
+			  <td class="col-md-3"><%= study.originator %></td>
+			  <td class="col-md-6">
+  			    <div class="btn-group">
+				  <%= link_to raw("<button type=\"button\" class=\"btn btn-sm btn-primary dropdown-toggle\">start comparing</button>"), assign_comparison_path(study.id) %>
+                </div>
+			  </td>
+  		    </tr>
+		  <% end %>
+  	    <% end %>
+  	  </table>
+    </div>
+  </div>
+</div>
