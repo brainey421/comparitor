@@ -20,12 +20,38 @@ class StudiesController < ApplicationController
   # If authenticated, display page with list of active studies.
   def index
     @studies = Study.find_each
+    @studies = @studies.reverse_each
+  end
+  
+  # If authenticated, display page with list of active studies 
+  # by the specified originator.
+  def originator
+    begin
+      @originator = params[:email]
+      @studies = Study.where(originator: @originator)
+      @studies = @studies.reverse_each
+    rescue
+      redirect_to(studies_path)
+    end
+  end
+  
+  # If authenticated, display page with list of active studies 
+  # with the specified name.
+  def name
+    begin
+      @name = params[:study_name]
+      @studies = Study.where(name: @name)
+      @studies = @studies.reverse_each
+    rescue
+      redirect_to(studies_path)
+    end
   end
   
   # If authenticated, display page to manage user's studies.
   def manage
     begin
       @studies = Study.where(user_id: session[:user_id])
+      @studies = @studies.reverse_each
     end
   end
   
@@ -35,6 +61,7 @@ class StudiesController < ApplicationController
     begin
       @study = Study.find(params[:study_id])
       @items = Item.where(study_id: params[:study_id])
+      @items = @items.reverse_each
       
       if @study.active == false && @study.user_id != session[:user_id]
         redirect_to(studies_path)
@@ -49,6 +76,7 @@ class StudiesController < ApplicationController
     begin
       s = Study.new
       s.name = params[:study_name]
+      s.originator = session[:user_email]
       s.user_id = session[:user_id]
       s.active = false
       s.save
@@ -70,6 +98,7 @@ class StudiesController < ApplicationController
       end
       
       @items = Item.where(study_id: params[:study_id])
+      @items = @items.reverse_each
     rescue
       redirect_to(manage_study_path)
     end
