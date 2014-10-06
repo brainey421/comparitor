@@ -5,25 +5,17 @@
 </div>
 <br>
 <div class="row">
-  <%= form_tag originator_study_path, method: "get" do %>
-    <div class="col-md-10">
+  <%= form_tag search_study_path, method: "get" do %>
+    <div class="col-md-5">
+	  <div class="input-group">
+	    <span class="input-group-addon">search by study name</span>
+	    <input name="study_name" type="text" class="form-control" placeholder="name">
+      </div>
+	</div>
+    <div class="col-md-5">
 	  <div class="input-group">
 	    <span class="input-group-addon">search by originator</span>
 	    <input name="email" type="text" class="form-control" placeholder="email@example.com">
-      </div>
-	</div>
-	<div class="col-md-2">
-      <button class="btn btn-primary">search</button>
-    </div>
-  <% end %>
-</div>
-<br>
-<div class="row">
-  <%= form_tag name_study_path, method: "get" do %>
-    <div class="col-md-10">
-	  <div class="input-group">
-	    <span class="input-group-addon">search by name</span>
-	    <input name="study_name" type="text" class="form-control" placeholder="name">
       </div>
 	</div>
 	<div class="col-md-2">

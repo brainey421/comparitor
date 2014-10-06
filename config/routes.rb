@@ -10,8 +10,7 @@ Rails.application.routes.draw do
   get '/users/modify/:user_id' => 'users#modify', as: 'modify_user'
   
   get '/studies' => 'studies#index', as: 'studies'
-  get '/studies/originator' => 'studies#originator', as: 'originator_study'
-  get '/studies/name' => 'studies#name', as: 'name_study'
+  get '/studies/search' => 'studies#search', as: 'search_study'
   get '/studies/new' => 'studies#new', as: 'new_study'
   get '/studies/manage' => 'studies#manage', as: 'manage_study'
   get '/studies/show/:study_id' => 'studies#show', as: 'show_study'

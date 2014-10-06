@@ -24,23 +24,22 @@ class StudiesController < ApplicationController
   end
   
   # If authenticated, display page with list of active studies 
-  # by the specified originator.
-  def originator
+  # according to the search results.
+  def search
     begin
-      @originator = params[:email]
-      @studies = Study.where(originator: @originator)
-      @studies = @studies.reverse_each
-    rescue
-      redirect_to(studies_path)
-    end
-  end
-  
-  # If authenticated, display page with list of active studies 
-  # with the specified name.
-  def name
-    begin
-      @name = params[:study_name]
-      @studies = Study.where(name: @name)
+      if params[:email] != "" && params[:study_name] != ""
+        @header = "Studies: #{params[:study_name]} by #{params[:email]}"
+        @studies = Study.where(originator: params[:email], name: params[:study_name])
+      elsif params[:email] != ""
+        @header = "Studies: #{params[:email]}"
+        @studies = Study.where(originator: params[:email])
+      elsif params[:study_name] != ""
+        @header = "Studies: #{params[:study_name]}"
+        @studies = Study.where(name: params[:study_name])
+      else
+        redirect_to(studies_path)
+        return
+      end
       @studies = @studies.reverse_each
     rescue
       redirect_to(studies_path)
