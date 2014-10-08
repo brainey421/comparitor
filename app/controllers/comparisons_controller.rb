@@ -81,6 +81,24 @@ class ComparisonsController < ApplicationController
     end
   end
   
+  def show_test
+    begin
+      @item1 = Item.find(params[:item_id1])
+      @item2 = Item.find(params[:item_id2])
+      @item3 = Item.find(params[:item_id3])
+      study = Study.find(@item1.study_id)
+    
+      if @item1 == @item2 || @item2 == @item3 || @item1 == @item3 || @item1.study_id != @item2.study_id || @item1.study_id != @item3.study_id || study.active == false
+        redirect_to(studies_path)
+        return
+      end
+    
+      @study_name = study.name
+    rescue
+      redirect_to(studies_path)
+    end
+  end
+  
   # If authenticated, and if items are valid and study is active, 
   # and if ranks are valid, 
   # record two-way comparison in database.
