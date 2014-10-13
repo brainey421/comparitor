@@ -6,8 +6,7 @@
 </div>
 <br>
 <div class="row">
-  <div class="col-md-1"></div>
-  <div class="col-md-10">
+  <div class="col-md-12">
     <div class="jumbotron">
 	  <div class="row">
         <div class="col-md-6">
@@ -17,21 +16,46 @@
 		    <h3 class="text-center"><%= @item1.name %></a></h3>
 		  <% end %>
 	      <br>
-	      <%= @item1.description %>
+		  <% if @item1.image %>
+  		    <div class="row">
+  			  <div class="col-md-3">
+  			    <a href="<%= @item1.image %>" target="_blank" class="thumbnail">
+  			      <img src="<%= @item1.image %>">
+  			    </a>
+  			  </div>
+  	          <div class="col-md-9">
+  	            <%= @item1.description %>
+  		      </div>
+  		    </div>
+		  <% else %>
+		    <%= @item1.description %>
+		  <% end %>
 	    </div>
 	    <div class="col-md-6">
-	      <% if @item1.link %>
+	      <% if @item2.link %>
 	        <h3 class="text-center"><%= link_to @item2.name, @item2.link, {target: "_blank"} %></a></h3>
 		  <% else %>
 		    <h3 class="text-center"><%= @item2.name %></a></h3>
 		  <% end %>
 	      <br>
-	      <%= @item2.description %>
+		  <% if @item2.image %>
+  		    <div class="row">
+  	          <div class="col-md-9">
+  	            <%= @item2.description %>
+  		      </div>
+  			  <div class="col-md-3">
+  			    <a href="<%= @item2.image %>" target="_blank" class="thumbnail">
+  			      <img src="<%= @item2.image %>">
+  			    </a>
+  			  </div>
+  		    </div>
+		  <% else %>
+		    <%= @item2.description %>
+		  <% end %>
 	    </div>
 	  </div>
     </div>
   </div>
-  <div class="col-md-1"></div>
 </div>
 <div class="row">
   <div class="col-md-3"></div>

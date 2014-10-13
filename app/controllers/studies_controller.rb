@@ -128,7 +128,7 @@ class StudiesController < ApplicationController
   end
   
   # If authenticated, and if study belongs to user, 
-  # destroy study and items in study.
+  # destroy study, its items, and its comparisons.
   def destroy
     begin
       study = Study.find(params[:study_id])
@@ -184,7 +184,36 @@ class StudiesController < ApplicationController
       unless study.user_id != session[:user_id] || study.active == true
         sparql = SPARQL::Client.new("http://dbpedia.org/sparql")
         category = params[:category_name].gsub ' ', '_'
-        items = sparql.query("SELECT ?name ?description ?link
+        
+        items = sparql.query("SELECT ?name ?description ?link ?image
+        WHERE {
+        ?name <http://purl.org/dc/terms/subject> <http://dbpedia.org/resource/Category:#{category}> .
+        ?name <http://www.w3.org/2000/01/rdf-schema#comment> ?description . 
+        ?name <http://xmlns.com/foaf/0.1/isPrimaryTopicOf> ?link .
+        ?name <http://xmlns.com/foaf/0.1/depiction> ?image .
+        FILTER (LANG(?description) = 'en')
+        }")
+        
+        unless items.size < 1
+          items.each do |item|
+            description = item[:description].to_s
+            link = item[:link].to_s
+            image = item[:image].to_s
+    
+            name = link.split("\n").grep(/http:\/\/en.wikipedia.org\/wiki\/(.*)/){$1}[0]
+            name = name.gsub '_', ' '
+            
+            i = Item.new
+            i.study_id = params[:study_id]
+            i.name = name
+            i.description = description
+            i.link = link
+            i.image = image
+            i.save
+          end
+        end
+        
+        items = sparql.query("SELECT ?name ?description ?link ?image
         WHERE {
         ?name <http://purl.org/dc/terms/subject> <http://dbpedia.org/resource/Category:#{category}> .
         ?name <http://www.w3.org/2000/01/rdf-schema#comment> ?description . 
@@ -200,12 +229,14 @@ class StudiesController < ApplicationController
             name = link.split("\n").grep(/http:\/\/en.wikipedia.org\/wiki\/(.*)/){$1}[0]
             name = name.gsub '_', ' '
             
-            i = Item.new
-            i.study_id = params[:study_id]
-            i.name = name
-            i.description = description
-            i.link = link
-            i.save
+            unless Item.where(name: name).size > 0
+              i = Item.new
+              i.study_id = params[:study_id]
+              i.name = name
+              i.description = description
+              i.link = link
+              i.save
+            end
           end
         end
       end
