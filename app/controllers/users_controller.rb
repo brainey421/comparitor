@@ -90,9 +90,14 @@ class UsersController < ApplicationController
     end
   end
   
-  # If authenticated, display edit account page.
+  # If authenticated, display edit account page, 
+  # including user statistics.
   def edit
-    
+    begin
+      @ncomparisons = Comparison.where(user_id: params[:user_id]).size
+    rescue
+      redirect_to(root_path)
+    end
   end
   
   # If authenticated and new email address is valid, 

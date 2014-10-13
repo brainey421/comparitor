@@ -17,25 +17,25 @@ class StudiesController < ApplicationController
     end
   end
   
-  # If authenticated, display page with list of active studies.
+  # If authenticated, display page with list of active and public studies.
   def index
-    @studies = Study.find_each
+    @studies = Study.where(active: true, public: true)
     @studies = @studies.reverse_each
   end
   
-  # If authenticated, display page with list of active studies 
+  # If authenticated, display page with list of active and public studies 
   # according to the search results.
   def search
     begin
       if params[:email] != "" && params[:study_name] != ""
         @header = "Studies: #{params[:study_name]} by #{params[:email]}"
-        @studies = Study.where(originator: params[:email], name: params[:study_name])
+        @studies = Study.where(originator: params[:email], name: params[:study_name], active: true, public: true)
       elsif params[:email] != ""
         @header = "Studies: #{params[:email]}"
-        @studies = Study.where(originator: params[:email])
+        @studies = Study.where(originator: params[:email], active: true, public: true)
       elsif params[:study_name] != ""
         @header = "Studies: #{params[:study_name]}"
-        @studies = Study.where(name: params[:study_name])
+        @studies = Study.where(name: params[:study_name], active: true, public: true)
       else
         redirect_to(studies_path)
         return
@@ -78,6 +78,7 @@ class StudiesController < ApplicationController
       s.originator = session[:user_email]
       s.user_id = session[:user_id]
       s.active = false
+      s.public = false
       s.save
     rescue
       
@@ -120,6 +121,40 @@ class StudiesController < ApplicationController
       
       study.active = true
       study.save
+    rescue
+      
+    ensure
+      redirect_to(manage_study_path)
+    end
+  end
+  
+  # If authenticated, and if study belongs to user, and if study is active, 
+  # make study public.
+  def publicize
+    begin
+      study = Study.find(params[:study_id])
+      
+      if study.user_id == session[:user_id] && study.active
+        study.public = true
+        study.save
+      end
+    rescue
+      
+    ensure
+      redirect_to(manage_study_path)
+    end
+  end
+  
+  # If authenticated, and if study belongs to user, and if study is active, 
+  # hide study.
+  def hide
+    begin
+      study = Study.find(params[:study_id])
+      
+      if study.user_id == session[:user_id] && study.active
+        study.public = false
+        study.save
+      end
     rescue
       
     ensure

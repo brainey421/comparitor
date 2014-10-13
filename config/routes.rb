@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   get '/studies/show/:study_id' => 'studies#show', as: 'show_study'
   get '/studies/edit/:study_id' => 'studies#edit', as: 'edit_study'
   get '/studies/activate/:study_id' => 'studies#activate', as: 'activate_study'
+  get '/studies/publicize/:study_id' => 'studies#publicize', as: 'publicize_study'
+  get '/studies/hide/:study_id' => 'studies#hide', as: 'hide_study'
   get '/studies/destroy/:study_id' => 'studies#destroy', as: 'destroy_study'
   get '/studies/add_to/:study_id' => 'studies#add_to', as: 'add_to_study'
   get '/studies/import_to/:study_id' => 'studies#import_to', as: 'import_to_study'

@@ -76,6 +76,7 @@ class ComparisonsController < ApplicationController
       end
     
       @study_name = study.name
+      @ncomparisons = Comparison.where(user_id: session[:user_id], study_id: study.id).size
     rescue
       redirect_to(studies_path)
     end

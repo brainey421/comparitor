@@ -34,17 +34,15 @@
 		  <th>Options</th>
   		</tr>
   	    <% @studies.each do |study| %>
-		  <% if study.active == true %>
-  	        <tr>
-  			  <td class="col-md-3"><%= link_to study.name, show_study_path(study.id) %></td>
-			  <td class="col-md-3"><%= study.originator %></td>
-			  <td class="col-md-6">
-  			    <div class="btn-group">
-				  <%= link_to raw("<button type=\"button\" class=\"btn btn-sm btn-primary dropdown-toggle\">start comparing</button>"), assign_comparison_path(study.id) %>
-                </div>
-			  </td>
-  		    </tr>
-		  <% end %>
+  	      <tr>
+  			<td class="col-md-3"><%= link_to study.name, show_study_path(study.id) %></td>
+			<td class="col-md-3"><%= study.originator %></td>
+			<td class="col-md-6">
+  			  <div class="btn-group">
+				<%= link_to raw("<button type=\"button\" class=\"btn btn-sm btn-primary dropdown-toggle\">start comparing</button>"), assign_comparison_path(study.id) %>
+              </div>
+			</td>
+  		  </tr>
   	    <% end %>
   	  </table>
     </div>
