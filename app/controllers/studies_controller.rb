@@ -301,4 +301,33 @@ class StudiesController < ApplicationController
       redirect_to(edit_study_path(params[:study_id]))
     end
   end
+  
+  # If authenticated, if study belongs to user, and if study is active, 
+  # export the comparison and item data from the study in CSV format.
+  def comparisons_and_items
+    begin
+      study = Study.find(params[:study_id])
+      
+      if study.user_id == session[:user_id] && study.active
+        headers['Content-Disposition'] = "attachment; filename=\"#{Study.find(params[:study_id]).name}_comparisons_and_items\""
+        headers['Content-Type'] ||= 'text/csv'
+        @headers = ['User', 'Time', 'Item 1', 'Rank 1', 'Item 2', 'Rank 2']
+        
+        rawcomparisons = Comparison.where(study_id: params[:study_id])
+        @comparisons = []
+        salt = SecureRandom.hex(24)
+    
+        rawcomparisons.each do |rawcomparison|
+          ranks = Rank.where(comparison_id: rawcomparison.id)
+          if ranks.size >= 2 && Item.find(ranks[0].item_id) && Item.find(ranks[1].item_id)
+            @comparisons << [(rawcomparison.user_id.to_s + salt).hash, rawcomparison.time, Item.find(ranks[0].item_id).name, ranks[0].rank, Item.find(ranks[1].item_id).name, ranks[1].rank]
+          end
+        end
+      else
+        redirect_to(manage_study_path)
+      end
+    rescue
+      redirect_to(manage_study_path)
+    end
+  end
 end

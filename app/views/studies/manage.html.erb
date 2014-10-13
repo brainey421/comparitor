@@ -26,6 +26,7 @@
   	      <th>Study</th>
 		  <th>Options</th>
 		  <th>Link to Share</th>
+		  <th>Export Data</th>
   		</tr>
   	    <% @studies.each do |study| %>
   	      <tr>
@@ -76,11 +77,16 @@
                 </ul>
               </div>
 			</td>
-			<td class="col-md-5">
+			<td class="col-md-2">
 		      <% if study.active %>
 			    <div class="input-group input-group-sm">
 			      <input type="text" class="form-control" value="http://<%= request.host_with_port %><%= assign_comparison_path(study.id) %>">
 				</div>
+			  <% end %>
+			</td>
+			<td class="col-md-3">
+			  <% if study.active %>
+			    <%= link_to 'Download CSV list', comparisons_and_items_study_path(format: :csv, study_id: study.id) %>
 			  <% end %>
 			</td>
   		  </tr>
