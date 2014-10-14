@@ -320,7 +320,18 @@ class StudiesController < ApplicationController
         rawcomparisons.each do |rawcomparison|
           ranks = Rank.where(comparison_id: rawcomparison.id)
           if ranks.size >= 2 && Item.find(ranks[0].item_id) && Item.find(ranks[1].item_id)
-            @comparisons << [(rawcomparison.user_id.to_s + salt).hash, rawcomparison.time, Item.find(ranks[0].item_id).name, ranks[0].rank, Item.find(ranks[1].item_id).name, ranks[1].rank]
+            first = 0
+            last = 1
+            if ranks[0].rank > ranks[1].rank
+              first = 1
+              last = 0
+            end
+            @comparisons << [(rawcomparison.user_id.to_s + salt).hash,
+                              rawcomparison.time,
+                              Item.find(ranks[first].item_id).name,
+                              ranks[first].rank,
+                              Item.find(ranks[last].item_id).name,
+                              ranks[last].rank]
           end
         end
       else
