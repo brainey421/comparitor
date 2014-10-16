@@ -303,8 +303,68 @@ class StudiesController < ApplicationController
   end
   
   # If authenticated, if study belongs to user, and if study is active, 
+  # export the item data from the study in CSV format.
+  def export_items
+    begin
+      study = Study.find(params[:study_id])
+      
+      if study.user_id == session[:user_id] && study.active
+        headers['Content-Disposition'] = "attachment; filename=\"#{Study.find(params[:study_id]).name}_items\""
+        headers['Content-Type'] ||= 'text/csv'
+        @headers = ['Item ID', 'Item']
+        
+        @items = Item.where(study_id: params[:study_id])
+      else
+        redirect_to(manage_study_path)
+      end
+    rescue
+      redirect_to(manage_study_path)
+    end
+  end
+  
+  # If authenticated, if study belongs to user, and if study is active, 
+  # export the comparison data from the study in CSV format.
+  def export_comparisons
+    begin
+      study = Study.find(params[:study_id])
+      
+      if study.user_id == session[:user_id] && study.active
+        headers['Content-Disposition'] = "attachment; filename=\"#{Study.find(params[:study_id]).name}_comparisons\""
+        headers['Content-Type'] ||= 'text/csv'
+        @headers = ['User', 'Time', 'Item ID 1', 'Rank 1', 'Item ID 2', 'Rank 2']
+        
+        rawcomparisons = Comparison.where(study_id: params[:study_id])
+        @comparisons = []
+        salt = SecureRandom.hex(24)
+    
+        rawcomparisons.each do |rawcomparison|
+          ranks = Rank.where(comparison_id: rawcomparison.id)
+          if ranks.size >= 2 && Item.find(ranks[0].item_id) && Item.find(ranks[1].item_id)
+            first = 0
+            last = 1
+            if ranks[0].rank > ranks[1].rank
+              first = 1
+              last = 0
+            end
+            @comparisons << [(rawcomparison.user_id.to_s + salt).hash,
+                              rawcomparison.time,
+                              Item.find(ranks[first].item_id).id,
+                              ranks[first].rank,
+                              Item.find(ranks[last].item_id).id,
+                              ranks[last].rank]
+          end
+        end
+      else
+        redirect_to(manage_study_path)
+      end
+    rescue
+      redirect_to(manage_study_path)
+    end
+  end
+  
+  # If authenticated, if study belongs to user, and if study is active, 
   # export the comparison and item data from the study in CSV format.
-  def comparisons_and_items
+  def export_both
     begin
       study = Study.find(params[:study_id])
       
