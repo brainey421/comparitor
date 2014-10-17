@@ -26,12 +26,11 @@
   	      <th>Study</th>
 		  <th>Options</th>
 		  <th>Link to Share</th>
-		  <th>Export Comparison Data</th>
   		</tr>
   	    <% @studies.each do |study| %>
   	      <tr>
   			<td class="col-md-3"><%= link_to study.name, show_study_path(study.id) %></td>
-			<td class="col-md-4">
+			<td class="col-md-5">
 			  <% if study.active == false %>
   			    <div class="btn-group">
                   <%= link_to raw("<button type=\"button\" class=\"btn btn-sm btn-primary\">edit</button>"), edit_study_path(study.id) %>
@@ -47,6 +46,16 @@
 			  <% else %>
   			    <div class="btn-group">
                   <%= link_to raw("<button type=\"button\" class=\"btn btn-sm btn-primary dropdown-toggle\">start comparing</button>"), assign_comparison_path(study.id) %>
+                </div>
+ 		        <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
+                    export data <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+					<li><%= link_to "list of items", export_items_study_path(format: :csv, study_id: study.id) %></li>
+					<li><%= link_to "list of comparisons", export_comparisons_study_path(format: :csv, study_id: study.id) %></li>
+                    <li><%= link_to "list comparisons with item names", export_both_study_path(format: :csv, study_id: study.id) %></li>
+                  </ul>
                 </div>
 			    <% if study.public == false %>
    		          <div class="btn-group">
@@ -77,25 +86,11 @@
                 </ul>
               </div>
 			</td>
-			<td class="col-md-3">
+			<td class="col-md-4">
 		      <% if study.active %>
 			    <div class="input-group input-group-sm">
 			      <input type="text" class="form-control" value="http://<%= request.host_with_port %><%= assign_comparison_path(study.id) %>">
 				</div>
-			  <% end %>
-			</td>
-			<td class="col-md-2">
-			  <% if study.active %>
- 		        <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
-                    export as CSV <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu" role="menu">
-					<li><%= link_to "list of items", export_items_study_path(format: :csv, study_id: study.id) %></li>
-					<li><%= link_to "list of comparisons", export_comparisons_study_path(format: :csv, study_id: study.id) %></li>
-                    <li><%= link_to "list comparisons with item names", export_both_study_path(format: :csv, study_id: study.id) %></li>
-                  </ul>
-                </div>
 			  <% end %>
 			</td>
   		  </tr>
