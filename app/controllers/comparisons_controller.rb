@@ -122,6 +122,7 @@ class ComparisonsController < ApplicationController
       c = Comparison.new
       c.user_id = session[:user_id]
       c.study_id = item1.study_id
+      c.time = Time.new.to_i
       c.save
       
       r1 = Rank.new
