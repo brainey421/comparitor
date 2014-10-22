@@ -79,6 +79,7 @@ class StudiesController < ApplicationController
       s.user_id = session[:user_id]
       s.active = false
       s.public = false
+      s.n_way = 2
       s.save
     rescue
       
@@ -104,7 +105,7 @@ class StudiesController < ApplicationController
     end
   end
   
-  # If authenticated, and if study belongs to user, and if study has more than one item,
+  # If authenticated, and if study belongs to user, and if study has enough items,
   # activate study.
   def activate
     begin
@@ -114,11 +115,17 @@ class StudiesController < ApplicationController
         return
       end
       
-      if Item.where(study_id: params[:study_id]).size < 2
-        flash[:error] = "Your study must have at least 2 items before activation."
+      n = params[:n_way].to_i
+      if n != 2 && n != 3
+        return 
+      end
+      
+      if Item.where(study_id: params[:study_id]).size < n
+        flash[:error] = "A #{n}-way comparison study must have at least #{n} items before activation."
         return
       end
       
+      study.n_way = n
       study.active = true
       study.save
     rescue

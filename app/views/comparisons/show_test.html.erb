@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-12 text-center">
-    <h1>Rank these from best (1) to worst (3).</h1>
+    <h1>How would you compare these? Ties are OK.</h1>
 	<h4><%= @study_name %></h4>
   </div>
 </div>
@@ -39,15 +39,32 @@
 	  </div>
 	  <br>
 	  <div class="row">
-	  	<div class="col-md-4 text-center">
-	  	  <h4><input type="radio"> 1 <input type="radio"> 2 <input type="radio"> 3</h4>
-	  	</div>
-	  	<div class="col-md-4 text-center">
-	  	  <h4><input type="radio"> 1 <input type="radio"> 2 <input type="radio"> 3</h4>
-	  	</div>
-	  	<div class="col-md-4 text-center">
-	  	  <h4><input type="radio"> 1 <input type="radio"> 2 <input type="radio"> 3</h4>
-	  	</div>
+		<div class="col-md-1"></div>
+		<div class="col-md-2">
+  		  <select class="form-control" name="rank1" form="threeway">
+  		    <option value="1">First</option>
+  		    <option value="2">Second</option>
+  		    <option value="3">Third</option>
+  		  </select>
+	    </div>
+		<div class="col-md-2"></div>
+		<div class="col-md-2">
+  		  <select class="form-control" name="rank2" form="threeway">
+  		    <option value="1">First</option>
+  		    <option value="2">Second</option>
+  		    <option value="3">Third</option>
+  		  </select>
+	    </div>
+		<div class="col-md-2"></div>
+		<div class="col-md-2">
+  		  <select class="form-control" name="rank3" form="threeway">
+  		    <option value="1">First</option>
+  		    <option value="2">Second</option>
+  		    <option value="3">Third</option>
+  		  </select>
+	    </div>
+		<div class="col-md-1"></div>
+	  </div>
     </div>
   </div>
 </div>
