@@ -30,7 +30,7 @@ Rails.application.routes.draw do
   get '/comparisons/show_two_way/:item_id1/:item_id2' => 'comparisons#show_two_way', as: 'show_two_way_comparison'
   get '/comparisons/show_three_way/:item_id1/:item_id2/:item_id3' => 'comparisons#show_three_way', as: 'show_three_way_comparison'
   get '/comparisons/two_way/:item_id1/:rank1/:item_id2/:rank2' => 'comparisons#two_way', as: 'two_way_comparison'
-  get '/comparisons/three_way/:item_id1/:rank1/:item_id2/:rank2/:item_id3/:rank3' => 'comparisons#three_way', as: 'three_way_comparison'
+  get '/comparisons/three_way/:item_id1/:item_id2/:item_id3' => 'comparisons#three_way', as: 'three_way_comparison'
   
   get '*path' => redirect("/")
   

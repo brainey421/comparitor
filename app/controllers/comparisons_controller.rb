@@ -172,4 +172,65 @@ class ComparisonsController < ApplicationController
       redirect_to(studies_path)
     end
   end
+  
+  # If authenticated, and if items are valid and study is active, 
+  # and if ranks are valid, 
+  # record three-way comparison in database.
+  def three_way
+    begin
+      item1 = Item.find(params[:item_id1])
+      item2 = Item.find(params[:item_id2])
+      item3 = Item.find(params[:item_id3])
+      study = Study.find(item1.study_id)
+      
+      if study.n_way != 3
+        redirect_to(studies_path)
+        return
+      end
+      
+      if item1 == item2 || item2 == item3 || item1 == item3 || item1.study_id != item2.study_id || item1.study_id != item3.study_id || study.active == false
+        redirect_to(studies_path)
+        return
+      end
+      
+      if params[:rank1].to_i < 1 || params[:rank1].to_i > 3 || params[:rank2].to_i < 1 || params[:rank2].to_i > 3 || params[:rank3].to_i < 1 || params[:rank3].to_i > 3
+        redirect_to(studies_path)
+        return
+      end
+      
+      rank1 = params[:rank1].to_i
+      rank2 = params[:rank2].to_i
+      rank3 = params[:rank3].to_i
+      
+      # fix up the ranks
+      
+      c = Comparison.new
+      c.user_id = session[:user_id]
+      c.study_id = item1.study_id
+      c.time = Time.new.to_i
+      c.save
+      
+      r1 = Rank.new
+      r1.comparison_id = c.id
+      r1.item_id = item1.id
+      r1.rank = rank1.to_i
+      r1.save
+      
+      r2 = Rank.new
+      r2.comparison_id = c.id
+      r2.item_id = item2.id
+      r2.rank = rank2.to_i
+      r2.save
+      
+      r3 = Rank.new
+      r3.comparison_id = c.id
+      r3.item_id = item3.id
+      r3.rank = rank3.to_i
+      r3.save
+      
+      redirect_to(assign_comparison_path(item1.study_id))
+    rescue
+      redirect_to(studies_path)
+    end
+  end
 end

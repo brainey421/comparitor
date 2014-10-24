@@ -5,6 +5,7 @@
   </div>
 </div>
 <br>
+<%= form_tag three_way_comparison_path(@item1.id, @item2.id, @item3.id), method: "get" do %>
 <div class="row">
   <div class="col-md-12">
     <div class="jumbotron">
@@ -41,7 +42,7 @@
 	  <div class="row">
 		<div class="col-md-1"></div>
 		<div class="col-md-2">
-  		  <select class="form-control" name="rank1" form="threeway">
+  		  <select class="form-control" name="rank1">
   		    <option value="1">First</option>
   		    <option value="2">Second</option>
   		    <option value="3">Third</option>
@@ -49,7 +50,7 @@
 	    </div>
 		<div class="col-md-2"></div>
 		<div class="col-md-2">
-  		  <select class="form-control" name="rank2" form="threeway">
+  		  <select class="form-control" name="rank2">
   		    <option value="1">First</option>
   		    <option value="2">Second</option>
   		    <option value="3">Third</option>
@@ -57,7 +58,7 @@
 	    </div>
 		<div class="col-md-2"></div>
 		<div class="col-md-2">
-  		  <select class="form-control" name="rank3" form="threeway">
+  		  <select class="form-control" name="rank3">
   		    <option value="1">First</option>
   		    <option value="2">Second</option>
   		    <option value="3">Third</option>
@@ -71,7 +72,8 @@
 <div class="row">
   <div class="col-md-3"></div>
   <div class="col-md-6 text-center">
-    <button class="btn btn-primary btn-lg">Submit!</button>
+	<button class="btn btn-primary btn-lg">Submit!</button>
   </div>
   <div class="col-md-3"></div>
 </div>
+<% end %>
