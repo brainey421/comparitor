@@ -41,6 +41,67 @@ class ComparisonsController < ApplicationController
           item_id3 = rand(@items.size)
         end
         
+        comparisons = []
+        Comparison.where(user_id: session[:user_id], study_id: params[:study_id]).each do |c|
+          rank1 = Rank.find_by(comparison_id: c.id, item_id: @items[item_id1].id)
+          rank2 = Rank.find_by(comparison_id: c.id, item_id: @items[item_id2].id)
+          rank3 = Rank.find_by(comparison_id: c.id, item_id: @items[item_id3].id)
+          if rank1 && rank2 && rank3
+            comparisons << c
+          end        
+        end
+        c = comparisons.max
+        if c
+          rank1 = Rank.find_by(comparison_id: c.id, item_id: @items[item_id1].id).rank
+          rank2 = Rank.find_by(comparison_id: c.id, item_id: @items[item_id2].id).rank
+          rank3 = Rank.find_by(comparison_id: c.id, item_id: @items[item_id3].id).rank
+          
+          if rank1 > rank2
+            temp = rank1
+            rank1 = rank2
+            rank2 = temp
+            
+            temp = item_id1
+            item_id1 = item_id2
+            item_id2 = temp
+          end
+          
+          if rank2 > rank3
+            temp = rank2
+            rank2 = rank3
+            rank3 = temp
+            
+            temp = item_id2
+            item_id2 = item_id3
+            item_id3 = temp
+          end
+          
+          if rank1 > rank2
+            temp = rank1
+            rank1 = rank2
+            rank2 = temp
+            
+            temp = item_id1
+            item_id1 = item_id2
+            item_id2 = temp
+          end
+          
+          notice = "You recently ranked #{@items[item_id1].name} "
+          if rank1 < rank2
+            notice = notice + "above "
+          else
+            notice = notice + "the same as "
+          end
+          notice = notice + "#{@items[item_id2].name}, which you ranked "
+          if rank2 < rank3
+            notice = notice + "above "
+          else
+            notice = notice + "the same as "
+          end
+          notice = notice + "#{@items[item_id3].name}."
+          flash[:notice] = notice
+        end
+        
         redirect_to(show_three_way_comparison_path(@items[item_id1].id, @items[item_id2].id, @items[item_id3].id))
       else
         item_id1 = rand(@items.size)
@@ -61,10 +122,19 @@ class ComparisonsController < ApplicationController
         if c
           rank1 = Rank.find_by(comparison_id: c.id, item_id: @items[item_id1].id).rank
           rank2 = Rank.find_by(comparison_id: c.id, item_id: @items[item_id2].id).rank
-          if rank1 < rank2
+          
+          if rank1 > rank2
+            temp = rank1
+            rank1 = rank2
+            rank2 = temp
+            
+            temp = item_id1
+            item_id1 = item_id2
+            item_id2 = temp
+          end
+          
+          if rank1 != rank2
             flash[:notice] = "You recently ranked #{@items[item_id1].name} above #{@items[item_id2].name}."
-          elsif rank1 > rank2
-            flash[:notice] = "You recently ranked #{@items[item_id2].name} above #{@items[item_id1].name}."
           else
             flash[:notice] = "You recently said you were not sure whether #{@items[item_id1].name} or #{@items[item_id2].name} is better."
           end
