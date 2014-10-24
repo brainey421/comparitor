@@ -15,7 +15,11 @@
   <div class="col-md-5">
 	<h1>My Statistics</h1>
 	<br>
-	<h4>You have made <%= @ncomparisons %> two-way comparisons.</h4>
+	<% if @ncomparisons == 1 %>
+	  <h4>You have made <%= @ncomparisons %> comparison.</h4>
+	<% else %>
+	  <h4>You have made <%= @ncomparisons %> comparisons.</h4>
+	<% end %>
   </div>
   <div class="col-md-1"></div>
 </div>
