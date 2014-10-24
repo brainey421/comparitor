@@ -202,7 +202,29 @@ class ComparisonsController < ApplicationController
       rank2 = params[:rank2].to_i
       rank3 = params[:rank3].to_i
       
-      # fix up the ranks
+      if rank1 > 1 && rank2 > 1 && rank3 > 1
+        rank1 = rank1 - 1
+        rank2 = rank2 - 1
+        rank3 = rank3 - 1
+      end
+      
+      if rank1 > 1 && rank2 > 1 && rank3 > 1
+        rank1 = rank1 - 1
+        rank2 = rank2 - 1
+        rank3 = rank3 - 1
+      end
+      
+      if rank1 != 2 && rank2 != 2 && rank3 != 2
+        if rank1 == 3
+          rank1 = 2
+        end
+        if rank2 == 3
+          rank2 = 2
+        end
+        if rank3 == 3
+          rank3 = 2
+        end
+      end
       
       c = Comparison.new
       c.user_id = session[:user_id]
