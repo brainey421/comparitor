@@ -316,7 +316,7 @@ class StudiesController < ApplicationController
       study = Study.find(params[:study_id])
       
       if study.user_id == session[:user_id] && study.active
-        headers['Content-Disposition'] = "attachment; filename=\"#{Study.find(params[:study_id]).name}_items\""
+        headers['Content-Disposition'] = "attachment; filename=\"items_#{params[:study_id]}\""
         headers['Content-Type'] ||= 'text/csv'
         @headers = ['Item ID', 'Item']
         
@@ -336,29 +336,66 @@ class StudiesController < ApplicationController
       study = Study.find(params[:study_id])
       
       if study.user_id == session[:user_id] && study.active
-        headers['Content-Disposition'] = "attachment; filename=\"#{Study.find(params[:study_id]).name}_comparisons\""
+        headers['Content-Disposition'] = "attachment; filename=\"comparisons_#{params[:study_id]}\""
         headers['Content-Type'] ||= 'text/csv'
-        @headers = ['User', 'Time', 'Item ID 1', 'Rank 1', 'Item ID 2', 'Rank 2']
         
         rawcomparisons = Comparison.where(study_id: params[:study_id])
         @comparisons = []
         salt = SecureRandom.hex(24)
-    
-        rawcomparisons.each do |rawcomparison|
-          ranks = Rank.where(comparison_id: rawcomparison.id)
-          if ranks.size >= 2 && Item.find(ranks[0].item_id) && Item.find(ranks[1].item_id)
-            first = 0
-            last = 1
-            if ranks[0].rank > ranks[1].rank
-              first = 1
-              last = 0
+        
+        if study.n_way == 3
+          @headers = ['User', 'Time', 'Item ID 1', 'Rank 1', 'Item ID 2', 'Rank 2', 'Item ID 3', 'Rank 3']
+          
+          rawcomparisons.each do |rawcomparison|
+            ranks = Rank.where(comparison_id: rawcomparison.id)
+            if ranks.size == 3 && Item.find(ranks[0].item_id) && Item.find(ranks[1].item_id) && Item.find(ranks[2].item_id)
+              first = 0
+              second = 1
+              third = 2
+              if ranks[first].rank > ranks[second].rank
+                temp = first
+                first = second
+                second = temp
+              end
+              if ranks[second].rank > ranks[third].rank
+                temp = second
+                second = third
+                third = temp
+              end
+              if ranks[first].rank > ranks[second].rank
+                temp = first
+                first = second
+                second = temp
+              end
+              @comparisons << [(rawcomparison.user_id.to_s + salt).hash,
+                                rawcomparison.time,
+                                Item.find(ranks[first].item_id).id,
+                                ranks[first].rank,
+                                Item.find(ranks[second].item_id).id,
+                                ranks[second].rank, 
+                                Item.find(ranks[third].item_id).id, 
+                                ranks[third].rank]
             end
-            @comparisons << [(rawcomparison.user_id.to_s + salt).hash,
-                              rawcomparison.time,
-                              Item.find(ranks[first].item_id).id,
-                              ranks[first].rank,
-                              Item.find(ranks[last].item_id).id,
-                              ranks[last].rank]
+          end
+        else
+          @headers = ['User', 'Time', 'Item ID 1', 'Rank 1', 'Item ID 2', 'Rank 2']
+          
+          rawcomparisons.each do |rawcomparison|
+            ranks = Rank.where(comparison_id: rawcomparison.id)
+            if ranks.size == 2 && Item.find(ranks[0].item_id) && Item.find(ranks[1].item_id)
+              first = 0
+              last = 1
+              if ranks[0].rank > ranks[1].rank
+                first = 1
+                last = 0
+              end
+              @comparisons << [(rawcomparison.user_id.to_s + salt).hash,
+                                rawcomparison.time,
+                                Item.find(ranks[first].item_id).id,
+                                ranks[first].rank,
+                                Item.find(ranks[last].item_id).id,
+                                ranks[last].rank]
+            end
           end
         end
       else
@@ -376,29 +413,66 @@ class StudiesController < ApplicationController
       study = Study.find(params[:study_id])
       
       if study.user_id == session[:user_id] && study.active
-        headers['Content-Disposition'] = "attachment; filename=\"#{Study.find(params[:study_id]).name}_comparisons_and_items\""
+        headers['Content-Disposition'] = "attachment; filename=\"comparisons_and_items_#{params[:study_id]}\""
         headers['Content-Type'] ||= 'text/csv'
-        @headers = ['User', 'Time', 'Item 1', 'Rank 1', 'Item 2', 'Rank 2']
         
         rawcomparisons = Comparison.where(study_id: params[:study_id])
         @comparisons = []
         salt = SecureRandom.hex(24)
-    
-        rawcomparisons.each do |rawcomparison|
-          ranks = Rank.where(comparison_id: rawcomparison.id)
-          if ranks.size >= 2 && Item.find(ranks[0].item_id) && Item.find(ranks[1].item_id)
-            first = 0
-            last = 1
-            if ranks[0].rank > ranks[1].rank
-              first = 1
-              last = 0
+        
+        if study.n_way == 3
+          @headers = ['User', 'Time', 'Item 1', 'Rank 1', 'Item 2', 'Rank 2', 'Item 3', 'Rank 3']
+          
+          rawcomparisons.each do |rawcomparison|
+            ranks = Rank.where(comparison_id: rawcomparison.id)
+            if ranks.size == 3 && Item.find(ranks[0].item_id) && Item.find(ranks[1].item_id) && Item.find(ranks[2].item_id)
+              first = 0
+              second = 1
+              third = 2
+              if ranks[first].rank > ranks[second].rank
+                temp = first
+                first = second
+                second = temp
+              end
+              if ranks[second].rank > ranks[third].rank
+                temp = second
+                second = third
+                third = temp
+              end
+              if ranks[first].rank > ranks[second].rank
+                temp = first
+                first = second
+                second = temp
+              end
+              @comparisons << [(rawcomparison.user_id.to_s + salt).hash,
+                                rawcomparison.time,
+                                Item.find(ranks[first].item_id).name,
+                                ranks[first].rank,
+                                Item.find(ranks[second].item_id).name,
+                                ranks[second].rank, 
+                                Item.find(ranks[third].item_id).name, 
+                                ranks[third].rank]
             end
-            @comparisons << [(rawcomparison.user_id.to_s + salt).hash,
-                              rawcomparison.time,
-                              Item.find(ranks[first].item_id).name,
-                              ranks[first].rank,
-                              Item.find(ranks[last].item_id).name,
-                              ranks[last].rank]
+          end
+        else
+          @headers = ['User', 'Time', 'Item 1', 'Rank 1', 'Item 2', 'Rank 2']
+          
+          rawcomparisons.each do |rawcomparison|
+            ranks = Rank.where(comparison_id: rawcomparison.id)
+            if ranks.size == 2 && Item.find(ranks[0].item_id) && Item.find(ranks[1].item_id)
+              first = 0
+              last = 1
+              if ranks[0].rank > ranks[1].rank
+                first = 1
+                last = 0
+              end
+              @comparisons << [(rawcomparison.user_id.to_s + salt).hash,
+                                rawcomparison.time,
+                                Item.find(ranks[first].item_id).name,
+                                ranks[first].rank,
+                                Item.find(ranks[last].item_id).name,
+                                ranks[last].rank]
+            end
           end
         end
       else
