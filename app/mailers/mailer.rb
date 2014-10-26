@@ -1,5 +1,5 @@
 class Mailer < ActionMailer::Base
-  default from: "from@example.com"
+  default from: "thecomparitor@gmail.com"
   
   def send_login_email(user, url)
     @url = url
