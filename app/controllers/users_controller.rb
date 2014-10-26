@@ -24,7 +24,7 @@ class UsersController < ApplicationController
   # Otherwise, redirect to the list of active studies.
   def index
     if session[:user_guid]
-      redirect_to(studies_path)
+      redirect_to(comparitor_path)
     end
   end
   

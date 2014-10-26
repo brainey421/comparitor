@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   get '/users/edit/:user_id' => 'users#edit', as: 'edit_user'
   get '/users/modify/:user_id' => 'users#modify', as: 'modify_user'
   
+  get '/comparitor' => 'comparitor#index', as: 'comparitor'
+  
   get '/studies' => 'studies#index', as: 'studies'
   get '/studies/search' => 'studies#search', as: 'search_study'
   get '/studies/new' => 'studies#new', as: 'new_study'
