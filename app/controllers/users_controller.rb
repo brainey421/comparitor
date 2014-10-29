@@ -28,6 +28,31 @@ class UsersController < ApplicationController
     end
   end
   
+  # If user already exists, redirect to email path. 
+  # Otherwise, 
+  def create
+    if params[:user_email] == ""
+      flash[:error] = "Please enter a valid email address."
+      redirect_to(root_path)
+      return
+    end
+    
+    @email = params[:user_email]
+    
+    begin
+      u = User.find_by(email: @email)
+      if u
+        redirect_to(email_user_path(user_email: @email))
+        return
+      end
+
+      @terms = Term.find(1).terms
+    rescue
+      flash[:error] = "Please enter a valid email address."
+      redirect_to(root_path)
+    end
+  end
+  
   # If email address valid, create a new user if necessary.
   # Then, assign the user a new GUID and send a login link via email.
   def email
@@ -37,18 +62,28 @@ class UsersController < ApplicationController
       return
     end
     
+    @email = params[:user_email]
+    
     begin
-      u = User.find_by(email: params[:user_email])
-      unless u
+      u = User.find_by(email: @email)
+      if u
+        u.guid = SecureRandom.uuid
+        u.save
+      else
+        if params[:user_name] == ""
+          flash[:error] = "Please enter a valid first name."
+          redirect_to(root_path)
+          return
+        end
+        
         u = User.new
-        u.email = params[:user_email]
+        u.email = @email
+        u.name = params[:user_name]
+        u.guid = SecureRandom.uuid
+        u.save
       end
       
-      u.guid = SecureRandom.uuid
-      u.save
-
       Mailer.send_login_email(u, "http://" + request.host_with_port + login_user_path(u.guid)).deliver
-      @email = u.email
     rescue
       flash[:error] = "Please enter a valid email address."
       redirect_to(root_path)
@@ -63,6 +98,7 @@ class UsersController < ApplicationController
       session[:user_id] = u.id
       session[:user_email] = u.email
       session[:user_guid] = u.guid
+      session[:user_name] = u.name
     rescue
       flash[:error] = "Please log in again, and follow the link sent to you via email."
     ensure
@@ -85,7 +121,8 @@ class UsersController < ApplicationController
       session[:user_id] = nil
       session[:user_email] = nil
       session[:user_guid] = nil
-    
+      session[:user_name] = nil
+      
       redirect_to(root_path)
     end
   end
@@ -101,13 +138,15 @@ class UsersController < ApplicationController
   end
   
   # If authenticated and new email address is valid, 
-  # then modify account's email address.
+  # then modify account's email address and name.
   def modify
     begin
       u = User.find(params[:user_id])
       u.email = params[:user_email]
+      u.name = params[:user_name]
       u.save
       session[:user_email] = params[:user_email]
+      session[:user_name] = params[:user_name]
     rescue
       flash[:error] = "Please enter a valid email address."
     ensure

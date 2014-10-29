@@ -8,6 +8,11 @@
 	    <input name="user_email" type="text" class="form-control" value=<%= session[:user_email] %>>
       </div>
 	  <br>
+	  <div class="input-group input-group">
+	    <span class="input-group-addon">first name</span>
+	    <input name="user_name" type="text" class="form-control" value=<%= session[:user_name] %>>
+      </div>
+	  <br>
       <button class="btn btn-primary">update account information</button>
     <% end %>
   </div>

@@ -3,6 +3,7 @@ class Mailer < ActionMailer::Base
   
   def send_login_email(user, url)
     @url = url
+    @name = user.name
     mail(:to => user.email, :subject => "The Comparitor: Login Information")
   end
 end

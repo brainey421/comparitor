@@ -23,7 +23,7 @@
 		<li><%= link_to "My Studies", manage_study_path %></li>
 	  </ul>
       <ul class="nav navbar-nav navbar-right">
-	    <li><p class="navbar-text">Welcome, <%= session[:user_email] %>!</p></li>
+	    <li><p class="navbar-text">Welcome, <%= session[:user_name] %>!</p></li>
         <li><%= link_to "My Account", edit_user_path(session[:user_id]) %></li>
 	    <li><%= link_to "Logout", logout_user_path %></li>
 	  </ul>
@@ -39,6 +39,10 @@
   <% end %>
   
   <%= yield %>
+</div>
+
+<div class="container">
+  <small>Terms and Conditions: <%= Term.find(1).terms %></small>
 </div>
 
 </body>
