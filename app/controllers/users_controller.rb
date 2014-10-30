@@ -45,8 +45,6 @@ class UsersController < ApplicationController
         redirect_to(email_user_path(user_email: @email))
         return
       end
-
-      @terms = Term.find(1).terms
     rescue
       flash[:error] = "Please enter a valid email address."
       redirect_to(root_path)

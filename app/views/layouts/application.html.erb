@@ -41,8 +41,8 @@
   <%= yield %>
 </div>
 
-<div class="container">
-  <small>Terms and Conditions: <%= Term.find(1).terms %></small>
+<div class="container text-center">
+  <small><%= link_to "Click here to read the terms of The Comparitor (opens in a new tab).", terms_path, {target: "_blank"} %></small>
 </div>
 
 </body>

@@ -18,11 +18,10 @@
   	      <input name="user_name" type="text" class="form-control" placeholder="First">
 	    </div>
 		<br>
-		<h3 class="text-center">Terms and Conditions</h3>
-		<h5><%= @terms %></h5>
+		<h5><%= link_to "Click here to read the terms of The Comparitor (opens in a new tab).", terms_path, {target: "_blank"} %></h5>
 		<br>
 		<div class="text-center">
-          <button class="btn btn-primary btn-lg">I agree to these terms. Create account!</button>
+          <button class="btn btn-primary btn-lg">I agree to the terms. Create account!</button>
 		</div>
 	  <% end %>
     </div>
