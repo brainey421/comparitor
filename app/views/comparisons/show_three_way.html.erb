@@ -21,25 +21,76 @@
 		    <h3 class="text-center"><%= @item1.name %></a></h3>
 		  <% end %>
 	      <br>
-	      <%= @item1.description %>
+  		  <% if @item1.image %>
+    		<div class="row">
+			  <div class="col-md-3"></div>
+    		  <div class="col-md-6">
+    			<a href="<%= @item1.image %>" target="_blank" class="thumbnail">
+    			  <img src="<%= @item1.image %>">
+    			</a>
+    		  </div>
+			  <div class="col-md-3"></div>
+		    </div>
+			<div class="row">
+			  <div class="col-md-12">
+    	        <small><%= @item1.description %></small>
+			  </div>
+    		</div>
+  		  <% else %>
+  		    <small><%= @item1.description %></small>
+  		  <% end %>
 	    </div>
-	    <div class="col-md-4">
-	      <% if @item1.link %>
+        <div class="col-md-4">
+		  <% if @item2.link %>
 	        <h3 class="text-center"><%= link_to @item2.name, @item2.link, {target: "_blank"} %></a></h3>
-		  <% else %>
+	      <% else %>
 		    <h3 class="text-center"><%= @item2.name %></a></h3>
 		  <% end %>
 	      <br>
-	      <%= @item2.description %>
+  		  <% if @item2.image %>
+    		<div class="row">
+			  <div class="col-md-3"></div>
+    		  <div class="col-md-6">
+    			<a href="<%= @item2.image %>" target="_blank" class="thumbnail">
+    			  <img src="<%= @item2.image %>">
+    			</a>
+    		  </div>
+			  <div class="col-md-3"></div>
+		    </div>
+			<div class="row">
+			  <div class="col-md-12">
+    	        <small><%= @item2.description %></small>
+			  </div>
+    		</div>
+  		  <% else %>
+  		    <small><%= @item2.description %></small>
+  		  <% end %>
 	    </div>
-	    <div class="col-md-4">
-	      <% if @item3.link %>
+        <div class="col-md-4">
+		  <% if @item3.link %>
 	        <h3 class="text-center"><%= link_to @item3.name, @item3.link, {target: "_blank"} %></a></h3>
-		  <% else %>
+	      <% else %>
 		    <h3 class="text-center"><%= @item3.name %></a></h3>
 		  <% end %>
 	      <br>
-	      <%= @item3.description %>
+  		  <% if @item3.image %>
+    		<div class="row">
+			  <div class="col-md-3"></div>
+    		  <div class="col-md-6">
+    			<a href="<%= @item3.image %>" target="_blank" class="thumbnail">
+    			  <img src="<%= @item3.image %>">
+    			</a>
+    		  </div>
+			  <div class="col-md-3"></div>
+		    </div>
+			<div class="row">
+			  <div class="col-md-12">
+    	        <small><%= @item3.description %></small>
+			  </div>
+    		</div>
+  		  <% else %>
+  		    <small><%= @item3.description %></small>
+  		  <% end %>
 	    </div>
 	  </div>
 	  <br>
