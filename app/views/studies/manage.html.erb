@@ -13,7 +13,7 @@
       </div>
     </div>
 	<div class="col-md-2">
-	  <button class="btn btn-primary">create study</button>
+      <button class="btn btn-primary">create a new study</button>
 	</div>
   <% end %>
 </div>
@@ -103,3 +103,26 @@
     </div>
   </div>
 </div>
+<% if @studies %>
+  <div class="row">
+    <%= form_tag duplicate_study_path, method: "get" do %>
+      <div class="col-md-8">
+        <div class="input-group">
+          <span class="input-group-addon">duplicate existing study</span>
+          <input name="study_name" type="text" class="form-control" placeholder="name of duplicate study">
+        </div>
+      </div>
+	  <div class="col-md-2">
+	    <select class="form-control" name="study_id">
+		  <% @studies.each do |study| %>
+			<option value=<%= study.id %>><%= study.name %></option>
+		  <% end %>
+        </ul>
+		</select>
+	  </div>
+	  <div class="col-md-2">
+	    <button class="btn btn-primary">duplicate study</button>
+	  </div>
+    <% end %>
+  </div>
+<% end %>

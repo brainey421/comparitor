@@ -88,6 +88,48 @@ class StudiesController < ApplicationController
     end
   end
   
+  # If authenaticated, and if study belongs to user, 
+  # duplicate an existing study.
+  def duplicate
+    begin
+      study = Study.find(params[:study_id])
+      if study.user_id != session[:user_id]
+        redirect_to(manage_study_path)
+        return
+      end
+      
+      unless params[:study_name] && params[:study_name] != ""
+        flash[:error] = "Please enter a valid name for the duplicate study."
+        redirect_to(manage_study_path)
+        return
+      end
+      
+      s = Study.new
+      s.name = params[:study_name]
+      s.originator = session[:user_email]
+      s.user_id = session[:user_id]
+      s.active = false
+      s.public = false
+      s.n_way = 2
+      s.save
+      
+      items = Item.where(study_id: params[:study_id])
+      items.each do |item|
+        i = Item.new
+        i.study_id = s.id
+        i.name = item.name
+        i.description = item.description
+        i.link = item.link
+        i.image = item.image
+        i.save
+      end
+      
+      redirect_to(manage_study_path)
+    rescue
+      redirect_to(manage_study_path)
+    end
+  end
+  
   # If authenticated, if study belongs to user, and if study is inactive
   # display page to edit study.
   def edit

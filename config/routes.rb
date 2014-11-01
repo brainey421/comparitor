@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   get '/studies/search' => 'studies#search', as: 'search_study'
   get '/studies/new' => 'studies#new', as: 'new_study'
   get '/studies/manage' => 'studies#manage', as: 'manage_study'
+  get '/studies/duplicate' => 'studies#duplicate', as: 'duplicate_study'
   get '/studies/show/:study_id' => 'studies#show', as: 'show_study'
   get '/studies/edit/:study_id' => 'studies#edit', as: 'edit_study'
   get '/studies/activate/:study_id/:n_way' => 'studies#activate', as: 'activate_study'
