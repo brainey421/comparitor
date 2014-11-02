@@ -1,3 +1,5 @@
+<%= javascript_include_tag 'twcscript' %>
+
 <div class="row">
   <div class="col-md-12 text-center">
     <h1>How would you compare these? Ties are OK.</h1>
@@ -91,41 +93,16 @@
 			<small><%= @item3.description %></small>
 		  </div>
 		</div>
-	    <br>
-	    <div class="row">
-		  <div class="col-md-1"></div>
-		  <div class="col-md-2">
-  		    <select class="form-control" name="rank1">
-  		      <option value="1">First</option>
-  		      <option value="2">Second</option>
-  		      <option value="3">Third</option>
-  		    </select>
-	      </div>
-		  <div class="col-md-2"></div>
-		  <div class="col-md-2">
-  		    <select class="form-control" name="rank2">
-  		      <option value="1">First</option>
-  		      <option value="2">Second</option>
-  		      <option value="3">Third</option>
-  		    </select>
-	      </div>
-		  <div class="col-md-2"></div>
-		  <div class="col-md-2">
-  		    <select class="form-control" name="rank3">
-  		      <option value="1">First</option>
-  		      <option value="2">Second</option>
-  		      <option value="3">Third</option>
-  		    </select>
-	      </div>
-		  <div class="col-md-1"></div>
-	    </div>
+	    <input style="display:none;" type="text" name="rank1" value="1">
+		<input style="display:none;" type="text" name="rank2" value="2">
+		<input style="display:none;" type="text" name="rank3" value="3">
 	  </div>
     </div>
   </div>
   <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-6 text-center">
-	  <button class="btn btn-primary btn-lg">Submit!</button>
+	  <button type="submit" class="btn btn-primary btn-lg">Submit!</button>
     </div>
     <div class="col-md-3"></div>
   </div>
