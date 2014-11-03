@@ -1,14 +1,46 @@
 $(document).ready(function() {
-	$('[name=rank2]').val('3');
-	$('button').click(function()
+	$('body').on('click', 'button#rank1', function()
 	{
-		/*
-		$(this).html("Fade");
-		$(this).fadeOut(2000);
-		$.ajax({
-			url: "/studies/new",
-			data: $.param({study_name: "This is a test."})
-		});
-		window.location.href = "/comparisons/assign/"; */
+		rank1 = $('[name=rank1]').val();
+		rank2 = $('[name=rank2]').val();
+		rank3 = $('[name=rank3]').val();
+		
+		if (rank2 == '0' && rank3 == '0') {
+			$('[name=rank1]').val('1');
+		
+			$('div#item1').html('<p>First!</p>');
+			$('div#item2').html('<button id="tie2" type="button" class="btn btn-primary">tie for first</button> <button id="rank2" type="button" class="btn btn-primary">rank second</button>');
+			$('div#item3').html('<button id="tie3" type="button" class="btn btn-primary">tie for first</button> <button id="rank3" type="button" class="btn btn-primary">rank second</button>');
+		}
+	});
+	
+	$('body').on('click', 'button#rank2', function()
+	{
+		rank1 = $('[name=rank1]').val();
+		rank2 = $('[name=rank2]').val();
+		rank3 = $('[name=rank3]').val();
+		
+		if (rank1 == '0' && rank3 == '0') {
+			$('[name=rank2]').val('1');
+		
+			$('div#item1').html('<button id="tie1" type="button" class="btn btn-primary">tie for first</button> <button id="rank1" type="button" class="btn btn-primary">rank second</button>');
+			$('div#item2').html('<p>First!</p>');
+			$('div#item3').html('<button id="tie3" type="button" class="btn btn-primary">tie for first</button> <button id="rank3" type="button" class="btn btn-primary">rank second</button>');
+		}
+	});
+	
+	$('body').on('click', 'button#rank3', function()
+	{
+		rank1 = $('[name=rank1]').val();
+		rank2 = $('[name=rank2]').val();
+		rank3 = $('[name=rank3]').val();
+		
+		if (rank1 == '0' && rank2 == '0') {
+			$('[name=rank3]').val('1');
+		
+			$('div#item1').html('<button id="tie1" type="button" class="btn btn-primary">tie for first</button> <button id="rank1" type="button" class="btn btn-primary">rank second</button>');
+			$('div#item2').html('<button id="tie2" type="button" class="btn btn-primary">tie for first</button> <button id="rank2" type="button" class="btn btn-primary">rank second</button>');
+			$('div#item3').html('<p>First!</p>');
+		}
 	});
 });
