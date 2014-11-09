@@ -164,6 +164,8 @@ class ComparisonsController < ApplicationController
         redirect_to(studies_path)
         return
       end
+      
+      @undo = false
     
       @study_name = study.name
       @ncomparisons = Comparison.where(user_id: session[:user_id], study_id: study.id).size
@@ -188,6 +190,8 @@ class ComparisonsController < ApplicationController
         redirect_to(studies_path)
         return
       end
+      
+      @undo = false
     
       @study_name = study.name
       @ncomparisons = Comparison.where(user_id: session[:user_id], study_id: study.id).size

@@ -6,6 +6,9 @@
 	<% else %>
 	  <h4><%= @study_name %>: You have made <%= @ncomparisons %> two-way comparisons in this category.</h4>
 	<% end %>
+	<% if @undo %>
+	  <button type="button" class="btn btn-danger btn-sm">undo previous comparison</button>
+	<% end %>
   </div>
 </div>
 <br>
