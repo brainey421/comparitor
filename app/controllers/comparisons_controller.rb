@@ -164,9 +164,8 @@ class ComparisonsController < ApplicationController
         redirect_to(studies_path)
         return
       end
-      
-      @undo = false
     
+      @study_id = study.id
       @study_name = study.name
       @ncomparisons = Comparison.where(user_id: session[:user_id], study_id: study.id).size
     rescue
@@ -190,9 +189,8 @@ class ComparisonsController < ApplicationController
         redirect_to(studies_path)
         return
       end
-      
-      @undo = false
     
+      @study_id = study.id
       @study_name = study.name
       @ncomparisons = Comparison.where(user_id: session[:user_id], study_id: study.id).size
     rescue
@@ -326,6 +324,45 @@ class ComparisonsController < ApplicationController
       r3.save
       
       redirect_to(assign_comparison_path(item1.study_id))
+    rescue
+      redirect_to(studies_path)
+    end
+  end
+  
+  # If authenticated, and if user has made a comparison in the study, 
+  # remove the most recent comparison by the user from the database.
+  def undo
+    begin
+      study = Study.find(params[:study_id])
+      
+      comparisons = []
+      Comparison.where(user_id: session[:user_id], study_id: params[:study_id]).each do |c|
+        comparisons << c
+      end
+      c = comparisons.max
+      ranks = Rank.where(comparison_id: c.id)
+      
+      if study.n_way == 3
+        item_id1 = ranks[0].item_id
+        item_id2 = ranks[1].item_id
+        item_id3 = ranks[2].item_id
+        
+        ranks[0].destroy
+        ranks[1].destroy
+        ranks[2].destroy
+        c.destroy
+        
+        redirect_to(show_three_way_comparison_path(item_id1, item_id2, item_id3))
+      else
+        item_id1 = ranks[0].item_id
+        item_id2 = ranks[1].item_id
+        
+        ranks[0].destroy
+        ranks[1].destroy
+        c.destroy
+        
+        redirect_to(show_two_way_comparison_path(item_id1, item_id2))
+      end
     rescue
       redirect_to(studies_path)
     end

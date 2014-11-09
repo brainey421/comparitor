@@ -6,8 +6,8 @@
 	<% else %>
 	  <h4><%= @study_name %>: You have made <%= @ncomparisons %> two-way comparisons in this category.</h4>
 	<% end %>
-	<% if @undo %>
-	  <button type="button" class="btn btn-danger btn-sm">undo previous comparison</button>
+	<% if @ncomparisons > 0 %>
+	  <%= link_to raw("<button type=\"button\" class=\"btn btn-danger btn-sm\">undo previous comparison</button>"), undo_comparison_path(@study_id) %>
 	<% end %>
   </div>
 </div>
