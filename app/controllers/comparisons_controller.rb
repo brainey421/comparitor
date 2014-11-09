@@ -352,6 +352,71 @@ class ComparisonsController < ApplicationController
         ranks[2].destroy
         c.destroy
         
+        comparisons = []
+        Comparison.where(user_id: session[:user_id], study_id: params[:study_id]).each do |c|
+          rank1 = Rank.find_by(comparison_id: c.id, item_id: item_id1)
+          rank2 = Rank.find_by(comparison_id: c.id, item_id: item_id2)
+          rank3 = Rank.find_by(comparison_id: c.id, item_id: item_id3)
+          if rank1 && rank2 && rank3
+            comparisons << c
+          end        
+        end
+        c = comparisons.max
+        if c
+          rank1 = Rank.find_by(comparison_id: c.id, item_id: item_id1).rank
+          rank2 = Rank.find_by(comparison_id: c.id, item_id: item_id2).rank
+          rank3 = Rank.find_by(comparison_id: c.id, item_id: item_id3).rank
+          
+          if rank1 > rank2
+            temp = rank1
+            rank1 = rank2
+            rank2 = temp
+            
+            temp = item_id1
+            item_id1 = item_id2
+            item_id2 = temp
+          end
+          
+          if rank2 > rank3
+            temp = rank2
+            rank2 = rank3
+            rank3 = temp
+            
+            temp = item_id2
+            item_id2 = item_id3
+            item_id3 = temp
+          end
+          
+          if rank1 > rank2
+            temp = rank1
+            rank1 = rank2
+            rank2 = temp
+            
+            temp = item_id1
+            item_id1 = item_id2
+            item_id2 = temp
+          end
+          
+          item1 = Item.find(item_id1)
+          item2 = Item.find(item_id2)
+          item3 = Item.find(item_id3)
+          
+          notice = "You recently ranked #{item1.name} "
+          if rank1 < rank2
+            notice = notice + "above "
+          else
+            notice = notice + "the same as "
+          end
+          notice = notice + "#{item2.name}, and you ranked #{item2.name} "
+          if rank2 < rank3
+            notice = notice + "above "
+          else
+            notice = notice + "the same as "
+          end
+          notice = notice + "#{item3.name}."
+          flash[:notice] = notice
+        end
+        
         redirect_to(show_three_way_comparison_path(item_id1, item_id2, item_id3))
       else
         item_id1 = ranks[0].item_id
@@ -360,6 +425,39 @@ class ComparisonsController < ApplicationController
         ranks[0].destroy
         ranks[1].destroy
         c.destroy
+        
+        comparisons = []
+        Comparison.where(user_id: session[:user_id], study_id: params[:study_id]).each do |c|
+          rank1 = Rank.find_by(comparison_id: c.id, item_id: item_id1)
+          rank2 = Rank.find_by(comparison_id: c.id, item_id: item_id2)
+          if rank1 && rank2
+            comparisons << c
+          end        
+        end
+        c = comparisons.max
+        if c
+          rank1 = Rank.find_by(comparison_id: c.id, item_id: item_id1).rank
+          rank2 = Rank.find_by(comparison_id: c.id, item_id: item_id2).rank
+          
+          if rank1 > rank2
+            temp = rank1
+            rank1 = rank2
+            rank2 = temp
+            
+            temp = item_id1
+            item_id1 = item_id2
+            item_id2 = temp
+          end
+          
+          item1 = Item.find(item_id1)
+          item2 = Item.find(item_id2)
+          
+          if rank1 != rank2
+            flash[:notice] = "You recently ranked #{item1.name} above #{item2.name}."
+          else
+            flash[:notice] = "You recently said you were not sure whether #{item1.name} or #{item2.name} is better."
+          end
+        end
         
         redirect_to(show_two_way_comparison_path(item_id1, item_id2))
       end
