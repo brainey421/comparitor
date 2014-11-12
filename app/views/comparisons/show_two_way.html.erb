@@ -1,10 +1,10 @@
 <div class="row">
   <div class="col-md-12 text-center">
-    <h1>Which one is better?</h1>
+    <h3>Which one is better?</h3>
 	<% if @ncomparisons == 1 %>
-	  <h4><%= @study_name %>: You have made <%= @ncomparisons %> two-way comparison in this category.</h4>
+	  <h5><%= @study_name %>: You have made <%= @ncomparisons %> two-way comparison in this category.</h5>
 	<% else %>
-	  <h4><%= @study_name %>: You have made <%= @ncomparisons %> two-way comparisons in this category.</h4>
+	  <h5><%= @study_name %>: You have made <%= @ncomparisons %> two-way comparisons in this category.</h5>
 	<% end %>
 	<% if @ncomparisons > 0 %>
 	  <%= link_to raw("<button type=\"button\" class=\"btn btn-danger btn-sm\">undo previous comparison</button>"), undo_comparison_path(@study_id) %>
@@ -18,47 +18,31 @@
 	  <div class="row">
         <div class="col-md-6">
 		  <% if @item1.link %>
-	        <h3 class="text-center"><%= link_to @item1.name, @item1.link, {target: "_blank"} %></a></h3>
+	        <h4 class="text-center"><%= link_to @item1.name, @item1.link, {target: "_blank"} %></a></h4>
 	      <% else %>
-		    <h3 class="text-center"><%= @item1.name %></a></h3>
+		    <h4 class="text-center"><%= @item1.name %></a></h4>
 		  <% end %>
 	      <br>
 		  <% if @item1.image %>
-  		    <div class="row">
-  			  <div class="col-md-4">
-  			    <a href="<%= @item1.image %>" target="_blank" class="thumbnail">
-  			      <img src="<%= @item1.image %>">
-  			    </a>
-  			  </div>
-  	          <div class="col-md-8">
-  	            <%= @item1.description %>
-  		      </div>
-  		    </div>
-		  <% else %>
-		    <%= @item1.description %>
+	        <a href="<%= @item1.image %>" target="_blank" class="thumbnail" style="width:25%;float:left;margin-right:10px;margin-bottom:5px;">
+	          <img src="<%= @item1.image %>">
+	        </a>
 		  <% end %>
+		  <small><%= @item1.description %></small>
 	    </div>
 	    <div class="col-md-6">
 	      <% if @item2.link %>
-	        <h3 class="text-center"><%= link_to @item2.name, @item2.link, {target: "_blank"} %></a></h3>
+	        <h4 class="text-center"><%= link_to @item2.name, @item2.link, {target: "_blank"} %></a></h4>
 		  <% else %>
-		    <h3 class="text-center"><%= @item2.name %></a></h3>
+		    <h4 class="text-center"><%= @item2.name %></a></h4>
 		  <% end %>
 	      <br>
 		  <% if @item2.image %>
-  		    <div class="row">
-  	          <div class="col-md-8">
-  	            <%= @item2.description %>
-  		      </div>
-  			  <div class="col-md-4">
-  			    <a href="<%= @item2.image %>" target="_blank" class="thumbnail">
-  			      <img src="<%= @item2.image %>">
-  			    </a>
-  			  </div>
-  		    </div>
-		  <% else %>
-		    <%= @item2.description %>
+	        <a href="<%= @item2.image %>" target="_blank" class="thumbnail" style="width:25%;float:right;margin-right:10px;margin-bottom:5px;">
+	          <img src="<%= @item2.image %>">
+	        </a>
 		  <% end %>
+		  <small><%= @item2.description %></small>
 	    </div>
 	  </div>
     </div>
@@ -67,9 +51,9 @@
 <div class="row">
   <div class="col-md-3"></div>
   <div class="col-md-6 text-center">
-    <%= link_to raw("<button type=\"submit\" class=\"btn btn-success btn-lg\">&larr; This one!</button>"), two_way_comparison_path(@item1.id, 1, @item2.id, 2) %>
-    <%= link_to raw("<button type=\"submit\" class=\"btn btn-primary btn-lg\">Not sure.</button>"), two_way_comparison_path(@item1.id, 1, @item2.id, 1) %>
-    <%= link_to raw("<button type=\"submit\" class=\"btn btn-success btn-lg\">This one! &rarr;</button>"), two_way_comparison_path(@item1.id, 2, @item2.id, 1) %>
+    <%= link_to raw("<button type=\"submit\" class=\"btn btn-success\">&larr; This one!</button>"), two_way_comparison_path(@item1.id, 1, @item2.id, 2) %>
+    <%= link_to raw("<button type=\"submit\" class=\"btn btn-primary\">Not sure.</button>"), two_way_comparison_path(@item1.id, 1, @item2.id, 1) %>
+    <%= link_to raw("<button type=\"submit\" class=\"btn btn-success\">This one! &rarr;</button>"), two_way_comparison_path(@item1.id, 2, @item2.id, 1) %>
   </div>
   <div class="col-md-3"></div>
 </div>

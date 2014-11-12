@@ -2,11 +2,11 @@
 
 <div class="row">
   <div class="col-md-12 text-center">
-    <h1>How would you compare these?</h1>
+    <h3>How would you compare these?</h3>
 	<% if @ncomparisons == 1 %>
-	  <h4><%= @study_name %>: You have made <%= @ncomparisons %> three-way comparison in this category.</h4>
+	  <h5><%= @study_name %>: You have made <%= @ncomparisons %> three-way comparison in this category.</h5>
 	<% else %>
-	  <h4><%= @study_name %>: You have made <%= @ncomparisons %> three-way comparisons in this category.</h4>
+	  <h5><%= @study_name %>: You have made <%= @ncomparisons %> three-way comparisons in this category.</h5>
 	<% end %>
 	<% if @ncomparisons > 0 %>
 	  <%= link_to raw("<button type=\"button\" class=\"btn btn-danger btn-sm\">undo previous comparison</button>"), undo_comparison_path(@study_id) %>
@@ -21,78 +21,50 @@
 	    <div class="row">
           <div class="col-md-4">
 		    <% if @item1.link %>
-	          <h3 class="text-center"><%= link_to @item1.name, @item1.link, {target: "_blank"} %></a></h3>
+	          <h4 class="text-center"><%= link_to @item1.name, @item1.link, {target: "_blank"} %></a></h4>
 	        <% else %>
-		      <h3 class="text-center"><%= @item1.name %></a></h3>
+		      <h4 class="text-center"><%= @item1.name %></a></h4>
 		    <% end %>
 		  </div>
           <div class="col-md-4">
 		    <% if @item2.link %>
-	          <h3 class="text-center"><%= link_to @item2.name, @item2.link, {target: "_blank"} %></a></h3>
+	          <h4 class="text-center"><%= link_to @item2.name, @item2.link, {target: "_blank"} %></a></h4>
 	        <% else %>
-		      <h3 class="text-center"><%= @item2.name %></a></h3>
+		      <h4 class="text-center"><%= @item2.name %></a></h4>
 		    <% end %>
 		  </div>
           <div class="col-md-4">
 		    <% if @item3.link %>
-	          <h3 class="text-center"><%= link_to @item3.name, @item3.link, {target: "_blank"} %></a></h3>
+	          <h4 class="text-center"><%= link_to @item3.name, @item3.link, {target: "_blank"} %></a></h4>
 	        <% else %>
-		      <h3 class="text-center"><%= @item3.name %></a></h3>
+		      <h4 class="text-center"><%= @item3.name %></a></h4>
 		    <% end %>
 		  </div>
 	    </div>
 	    <br>
-		<% if @item1.image || @item2.image || @item3.image %>
-	      <div class="row">
-		    <div class="col-md-4">
-  		      <% if @item1.image %>
-    		    <div class="row">
-			      <div class="col-md-3"></div>
-    		      <div class="col-md-6">
-    			    <a href="<%= @item1.image %>" target="_blank" class="thumbnail">
-    			      <img src="<%= @item1.image %>">
-    			    </a>
-    		      </div>
-			      <div class="col-md-3"></div>
-		        </div>
-		      <% end %>
-			</div>
-		    <div class="col-md-4">
-  		      <% if @item2.image %>
-    		    <div class="row">
-			      <div class="col-md-3"></div>
-    		      <div class="col-md-6">
-    			    <a href="<%= @item2.image %>" target="_blank" class="thumbnail">
-    			      <img src="<%= @item2.image %>">
-    			    </a>
-    		      </div>
-			      <div class="col-md-3"></div>
-		        </div>
-		      <% end %>
-			</div>
-		    <div class="col-md-4">
-  		      <% if @item3.image %>
-    		    <div class="row">
-			      <div class="col-md-3"></div>
-    		      <div class="col-md-6">
-    			    <a href="<%= @item3.image %>" target="_blank" class="thumbnail">
-    			      <img src="<%= @item3.image %>">
-    			    </a>
-    		      </div>
-			      <div class="col-md-3"></div>
-		        </div>
-		      <% end %>
-			</div>
-		  </div>
-		<% end %>
 		<div class="row">
 		  <div class="col-md-4">
+			<% if @item1.image %>
+		      <a href="<%= @item1.image %>" target="_blank" class="thumbnail" style="width:35%;float:left;margin-right:10px;margin-bottom:5px;">
+		        <img src="<%= @item1.image %>">
+		      </a>
+			<% end %>
 			<small><%= @item1.description %></small>
 		  </div>
 		  <div class="col-md-4">
+  			<% if @item2.image %>
+  		      <a href="<%= @item2.image %>" target="_blank" class="thumbnail" style="width:35%;float:left;margin-right:10px;margin-bottom:5px;">
+  		        <img src="<%= @item2.image %>">
+  		      </a>
+  			<% end %>
 			<small><%= @item2.description %></small>
 		  </div>
 		  <div class="col-md-4">
+  			<% if @item3.image %>
+  		      <a href="<%= @item3.image %>" target="_blank" class="thumbnail" style="width:35%;float:left;margin-right:10px;margin-bottom:5px;">
+  		        <img src="<%= @item3.image %>">
+  		      </a>
+  			<% end %>
 			<small><%= @item3.description %></small>
 		  </div>
 		</div>
@@ -114,8 +86,8 @@
 	  </div>
 	  <div class="row">
 	    <div class="col-md-12 text-center">
-		  <button id="restart" type="button" class="btn btn-success btn-lg">restart</button>
-		  <button style="display:none;" id="submit" type="submit" class="btn btn-primary btn-lg">submit</button>
+		  <button id="restart" type="button" class="btn btn-success">restart</button>
+		  <button style="display:none;" id="submit" type="submit" class="btn btn-primary">submit</button>
 	    </div>
 	  </div>
     </div>
