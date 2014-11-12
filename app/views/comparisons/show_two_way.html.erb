@@ -7,7 +7,7 @@
 	  <h5><%= @study_name %>: You have made <%= @ncomparisons %> two-way comparisons in this category.</h5>
 	<% end %>
 	<% if @ncomparisons > 0 %>
-	  <%= link_to raw("<button type=\"button\" class=\"btn btn-danger btn-sm\">undo previous comparison</button>"), undo_comparison_path(@study_id) %>
+	  <%= link_to raw("<button type=\"button\" class=\"btn btn-danger btn-sm\">undo previous comparison</button>"), undo_comparison_path(@study_id), {accesskey: "u"} %>
 	<% end %>
   </div>
 </div>
@@ -38,7 +38,7 @@
 		  <% end %>
 	      <br>
 		  <% if @item2.image %>
-	        <a href="<%= @item2.image %>" target="_blank" class="thumbnail" style="width:25%;float:right;margin-right:10px;margin-bottom:5px;">
+	        <a href="<%= @item2.image %>" target="_blank" class="thumbnail" style="width:25%;float:right;margin-left:10px;margin-bottom:5px;">
 	          <img src="<%= @item2.image %>">
 	        </a>
 		  <% end %>
@@ -51,9 +51,9 @@
 <div class="row">
   <div class="col-md-3"></div>
   <div class="col-md-6 text-center">
-    <%= link_to raw("<button type=\"submit\" class=\"btn btn-success\">&larr; This one!</button>"), two_way_comparison_path(@item1.id, 1, @item2.id, 2) %>
-    <%= link_to raw("<button type=\"submit\" class=\"btn btn-primary\">Not sure.</button>"), two_way_comparison_path(@item1.id, 1, @item2.id, 1) %>
-    <%= link_to raw("<button type=\"submit\" class=\"btn btn-success\">This one! &rarr;</button>"), two_way_comparison_path(@item1.id, 2, @item2.id, 1) %>
+    <%= link_to raw("<button type=\"submit\" class=\"btn btn-success\">&larr; This one!</button>"), two_way_comparison_path(@item1.id, 1, @item2.id, 2), {accesskey: "1"} %>
+    <%= link_to raw("<button type=\"submit\" class=\"btn btn-primary\">Not sure.</button>"), two_way_comparison_path(@item1.id, 1, @item2.id, 1), {accesskey: "n"} %>
+    <%= link_to raw("<button type=\"submit\" class=\"btn btn-success\">This one! &rarr;</button>"), two_way_comparison_path(@item1.id, 2, @item2.id, 1), {accesskey: "2"} %>
   </div>
   <div class="col-md-3"></div>
 </div>
