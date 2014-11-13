@@ -39,6 +39,8 @@ Rails.application.routes.draw do
   get '/comparisons/three_way/:item_id1/:item_id2/:item_id3' => 'comparisons#three_way', as: 'three_way_comparison'
   get '/comparisons/undo/:study_id' => 'comparisons#undo', as: 'undo_comparison'
   
+  get '/keyboard' => 'keyboard#index', as: 'keyboard'
+  
   get '*path' => redirect("/")
   
   # The priority is based upon order of creation: first created -> highest priority.
