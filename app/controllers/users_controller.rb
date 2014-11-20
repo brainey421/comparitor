@@ -29,7 +29,7 @@ class UsersController < ApplicationController
   end
   
   # If user already exists, redirect to email path. 
-  # Otherwise, 
+  # Otherwise, present the create account form.
   def create
     if params[:user_email] == ""
       flash[:error] = "Please enter a valid email address."
@@ -135,16 +135,20 @@ class UsersController < ApplicationController
     end
   end
   
-  # If authenticated and new email address is valid, 
+  # If authenticated and new email address and name are valid, 
   # then modify account's email address and name.
   def modify
     begin
       u = User.find(params[:user_id])
-      u.email = params[:user_email]
-      u.name = params[:user_name]
+      unless params[:user_email] == ""
+        u.email = params[:user_email]
+        session[:user_email] = params[:user_email]
+      end
+      unless params[:user_name] == ""
+        u.name = params[:user_name]
+        session[:user_name] = params[:user_name]
+      end
       u.save
-      session[:user_email] = params[:user_email]
-      session[:user_name] = params[:user_name]
     rescue
       flash[:error] = "Please enter a valid email address."
     ensure

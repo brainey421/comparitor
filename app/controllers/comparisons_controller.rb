@@ -207,6 +207,12 @@ class ComparisonsController < ApplicationController
       item2 = Item.find(params[:item_id2])
       study = Study.find(item1.study_id)
       
+      if Comparison.where(user_id: session[:user_id], time: Time.new.to_i).size > 1
+        flash[:error] = "Please make your comparisons more slowly."
+        redirect_to(studies_path)
+        return
+      end
+      
       if study.n_way != 2
         redirect_to(studies_path)
         return
@@ -255,6 +261,12 @@ class ComparisonsController < ApplicationController
       item2 = Item.find(params[:item_id2])
       item3 = Item.find(params[:item_id3])
       study = Study.find(item1.study_id)
+      
+      if Comparison.where(user_id: session[:user_id], time: Time.new.to_i).size > 1
+        flash[:error] = "Please make your comparisons more slowly."
+        redirect_to(studies_path)
+        return
+      end
       
       if study.n_way != 3
         redirect_to(studies_path)

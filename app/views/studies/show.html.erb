@@ -1,9 +1,8 @@
 <div class="row">
   <div class="col-md-12">
+	<h1><%= @study.name %></h1>
 	<% if @study.active %>
-	  <h1><%= @study.name %>: <%= link_to "Start making #{@study.n_way}-way comparisons!", assign_comparison_path(@study.id) %></h1>
-	<% else %>
-	  <h1><%= @study.name %></h1>
+	  <%= link_to raw("<button type=\"button\" class=\"btn btn-primary dropdown-toggle\">start making #{@study.n_way}-way comparisons</button>"), assign_comparison_path(@study.id) %>
 	<% end %>
   </div>
 </div>
