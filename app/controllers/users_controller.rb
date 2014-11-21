@@ -70,7 +70,7 @@ class UsersController < ApplicationController
       else
         if params[:user_name] == ""
           flash[:error] = "Please enter a valid first name."
-          redirect_to(root_path)
+          redirect_to(create_user_path(user_email: @email))
           return
         end
         

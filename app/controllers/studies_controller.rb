@@ -80,7 +80,9 @@ class StudiesController < ApplicationController
       s.active = false
       s.public = false
       s.n_way = 2
-      s.save
+      unless s.save
+        flash[:error] = "Please enter a valid study name."
+      end
     rescue
       
     ensure
@@ -170,6 +172,8 @@ class StudiesController < ApplicationController
       study.n_way = n
       study.active = true
       study.save
+      
+      flash[:notice] = "Your study is currently private. Only people with your study's \"link to share\" can access your study. To publish your study to the homepage, change your study's privacy from \"private\" to \"public.\""
     rescue
       
     ensure
@@ -251,10 +255,12 @@ class StudiesController < ApplicationController
         i.study_id = params[:study_id]
         i.name = params[:item_name]
         i.description = params[:item_description]
-        i.save
+        unless i.save
+          flash[:error] = "Please enter a valid item name and description."
+        end
       end
     rescue
-      
+
     ensure
       redirect_to(edit_study_path(params[:study_id]))
     end
@@ -305,7 +311,7 @@ class StudiesController < ApplicationController
         FILTER (LANG(?description) = 'en')
         }")
         
-        unless items.size < 1
+        if items.size > 0
           items.each do |item|
             description = item[:description].to_s
             link = item[:link].to_s
@@ -322,6 +328,8 @@ class StudiesController < ApplicationController
               i.save
             end
           end
+        else
+          flash[:error] = "Please enter a valid Wikipedia category."
         end
       end
     rescue

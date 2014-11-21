@@ -11,6 +11,7 @@
 	<% if @ncomparisons > 0 %>
 	  <%= link_to raw("<button type=\"button\" class=\"btn btn-danger btn-sm\">undo previous comparison</button>"), undo_comparison_path(@study_id), {accesskey: "u"} %>
 	<% end %>
+	<button id="restart" type="button" class="btn btn-danger btn-sm" accesskey="r">reset current comparison</button>
   </div>
 </div>
 <br>
@@ -86,16 +87,14 @@
 	  </div>
 	  <div class="row">
 	    <div class="col-md-12 text-center">
-		  <button id="restart" type="button" class="btn btn-success" accesskey="r">restart</button>
 		  <button style="display:none;" id="submit" type="submit" class="btn btn-primary" accesskey="s">submit</button>
 	    </div>
 	  </div>
     </div>
   </div>
 <% end %>
-<br>
 <div class="row">
   <div class="col-md-12 text-center">
-    <p>Tip: <%= link_to "Use keyboard shortcuts to speed up comparison (opens in a new tab).", keyboard_path, {target: "_blank"} %></p>
+    <h5>Tip: <%= link_to "Use keyboard shortcuts to speed up comparisons (opens in a new tab).", keyboard_path, {target: "_blank"} %></h5>
   </div>
 </div>
