@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   get '/studies/duplicate' => 'studies#duplicate', as: 'duplicate_study'
   get '/studies/show/:study_id' => 'studies#show', as: 'show_study'
   get '/studies/edit/:study_id' => 'studies#edit', as: 'edit_study'
+  get '/studies/rename/:study_id' => 'studies#rename', as: 'rename_study'
   get '/studies/activate/:study_id/:n_way' => 'studies#activate', as: 'activate_study'
   get '/studies/publicize/:study_id' => 'studies#publicize', as: 'publicize_study'
   get '/studies/hide/:study_id' => 'studies#hide', as: 'hide_study'

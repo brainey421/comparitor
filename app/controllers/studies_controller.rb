@@ -149,6 +149,22 @@ class StudiesController < ApplicationController
     end
   end
   
+  # If authenicated, if study belongs to user, and if study is inactive, 
+  # rename study.
+  def rename
+    begin
+      study = Study.find(params[:study_id])
+      unless study.user_id != session[:user_id] || study.active == true
+        study.name = params[:study_name]
+        study.save
+      end
+    rescue
+
+    ensure
+      redirect_to(edit_study_path(params[:study_id]))
+    end
+  end
+  
   # If authenticated, and if study belongs to user, and if study has enough items,
   # activate study.
   def activate
