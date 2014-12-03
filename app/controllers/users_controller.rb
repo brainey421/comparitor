@@ -54,6 +54,9 @@ class UsersController < ApplicationController
   # If email address valid, create a new user if necessary.
   # Then, assign the user a new GUID and send a login link via email.
   def email
+    # Remove this eventually
+    puts "CLIENT IP: #{request.remote_ip}"
+    
     if params[:user_email] == ""
       flash[:error] = "Please enter a valid email address."
       redirect_to(root_path)
