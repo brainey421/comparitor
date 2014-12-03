@@ -16,7 +16,7 @@
 /tmp
 
 # Ignore environment.rb
-/config/environment.rb
+# /config/environment.rb
 
 # Ignore MySQL scripts
 /scripts/mysql.sh
