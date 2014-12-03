@@ -50,3 +50,5 @@ gem 'twitter-bootswatch-rails-helpers'
 gem 'mysql'
 
 gem 'sparql-client'
+
+gem 'rails_12factor'
