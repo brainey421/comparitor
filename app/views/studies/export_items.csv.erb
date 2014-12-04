@@ -1,1 +1,1 @@
-<%= CSV.generate_line @headers %> <% @items.each do |item| %> <%= CSV.generate_line([item.id, item.name]) %> <% end %>
+<%= CSV.generate_line @headers %> <% @items.each do |item| %> <%= CSV.generate_line([item.id, item.name]).html_safe %> <% end %>
