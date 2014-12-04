@@ -353,7 +353,7 @@ class StudiesController < ApplicationController
         end
       end
     rescue
-      
+      puts $!, $@
     ensure
       redirect_to(edit_study_path(params[:study_id]))
     end
