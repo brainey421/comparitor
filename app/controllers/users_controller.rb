@@ -54,8 +54,21 @@ class UsersController < ApplicationController
   # If email address valid, create a new user if necessary.
   # Then, assign the user a new GUID and send a login link via email.
   def email
-    # Remove this eventually
-    puts "CLIENT IP: #{request.remote_ip}"
+    net0 = IPAddr.new("128.10.0.0/16")
+    net1 = IPAddr.new("128.46.0.0/16")
+    net2 = IPAddr.new("128.210.0.0/16")
+    net3 = IPAddr.new("128.211.0.0/16")
+    net4 = IPAddr.new("204.52.32.0/19")
+    net5 = IPAddr.new("192.5.40.0/24")
+    net6 = IPAddr.new("192.5.101.0/24")
+    net7 = IPAddr.new("192.5.102.0/24")
+    net8 = IPAddr.new("192.31.0.0/24")
+    
+    if net0 === request.remote_ip || net1 === request.remote_ip || net2 === request.remote_ip || net3 === request.remote_ip || net4 === request.remote_ip || net5 === request.remote_ip || net6 === request.remote_ip || net7 === request.remote_ip || net8 === request.remote_ip
+      flash[:error] = "Please login on the Purdue West Lafayette campus."
+      redirect_to(root_path)
+      return
+    end
     
     if params[:user_email] == ""
       flash[:error] = "Please enter a valid email address."
