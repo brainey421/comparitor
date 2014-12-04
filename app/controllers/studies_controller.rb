@@ -286,11 +286,15 @@ class StudiesController < ApplicationController
   # import items in category to study.
   def import_to
     begin
+      puts "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
       study = Study.find(params[:study_id])
+      puts "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
       unless study.user_id != session[:user_id] || study.active == true
+        puts "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"
         sparql = SPARQL::Client.new("http://dbpedia.org/sparql")
+        puts "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"
         category = params[:category_name].gsub ' ', '_'
-        
+        puts "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"
         items = sparql.query("SELECT ?name ?description ?link ?image
         WHERE {
         ?name <http://purl.org/dc/terms/subject> <http://dbpedia.org/resource/Category:#{category}> .
@@ -299,7 +303,7 @@ class StudiesController < ApplicationController
         ?name <http://xmlns.com/foaf/0.1/depiction> ?image .
         FILTER (LANG(?description) = 'en')
         }")
-        
+        puts "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
         unless items.size < 1
           items.each do |item|
             description = item[:description].to_s
