@@ -49,7 +49,7 @@ gem 'twitter-bootstrap-rails'
 gem 'twitter-bootswatch-rails'
 gem 'twitter-bootswatch-rails-helpers'
 
-gem 'mysql'
+gem 'mysql2'
 
 gem 'sparql-client'
 
