@@ -9,7 +9,7 @@ ActionMailer::Base.delivery_method = :smtp
 
 # Set up mailer settings
 ActionMailer::Base.smtp_settings = {
-  :user_name => 'thecomparitor@gmail.com',
+  :user_name => 'thecomparitor1@gmail.com',
   :password => 'kemeny.snell',
   :domain => 'gmail.com',
   :address => 'smtp.gmail.com',
