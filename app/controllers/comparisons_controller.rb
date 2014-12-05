@@ -143,7 +143,6 @@ class ComparisonsController < ApplicationController
         redirect_to(show_two_way_comparison_path(@items[item_id1].id, @items[item_id2].id))
       end
     rescue
-      puts $!, $@
       redirect_to(studies_path)
     end
   end
@@ -249,7 +248,6 @@ class ComparisonsController < ApplicationController
       
       redirect_to(assign_comparison_path(item1.study_id))
     rescue
-      puts $!, $@
       redirect_to(studies_path)
     end
   end
