@@ -16,13 +16,14 @@
 /tmp
 
 # Ignore environment.rb
-# /config/environment.rb
+/config/environment.rb
 
-# Ignore MySQL scripts
+# Ignore database.yml
+/config/database.yml
+
+# Ignore scripts
 /scripts/mysql.sh
 /scripts/restart_mysql.sh
 /scripts/start_mysql.sh
 /scripts/stop_mysql.sh
-
-# Ignore outdated scripts
 /scripts/load_category.rb
