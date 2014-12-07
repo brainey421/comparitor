@@ -16,10 +16,10 @@
 /tmp
 
 # Ignore environment.rb
-/config/environment.rb
+# /config/environment.rb
 
 # Ignore database.yml
-/config/database.yml
+# /config/database.yml
 
 # Ignore scripts
 /scripts/mysql.sh
