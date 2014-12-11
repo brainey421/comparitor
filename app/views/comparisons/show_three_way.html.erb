@@ -4,9 +4,9 @@
   <div class="col-md-12 text-center">
     <h3>How would you compare these?</h3>
 	<% if @ncomparisons == 1 %>
-	  <h5><%= @study_name %>: You have made <%= @ncomparisons %> three-way comparison in this category.</h5>
+	  <h5><%= @study_name %>: You have made <%= @ncomparisons %> three-way comparison in this study.</h5>
 	<% else %>
-	  <h5><%= @study_name %>: You have made <%= @ncomparisons %> three-way comparisons in this category.</h5>
+	  <h5><%= @study_name %>: You have made <%= @ncomparisons %> three-way comparisons in this study.</h5>
 	<% end %>
 	<% if @ncomparisons > 0 %>
 	  <%= link_to raw("<button type=\"button\" class=\"btn btn-danger btn-sm\">undo previous comparison</button>"), undo_comparison_path(@study_id), {accesskey: "u"} %>

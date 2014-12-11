@@ -6,10 +6,9 @@
 #
 default: &default
   adapter: mysql2
-  database: heroku_3893aed72237f7b
-  username: bf4d7afe55cb35
-  password: 62806438
-  host: us-cdbr-iron-east-01.cleardb.net
+  database: comparitor
+  username: root
+  host: localhost
 
 development:
   <<: *default

@@ -63,8 +63,10 @@ class UsersController < ApplicationController
     net6 = IPAddr.new("192.5.101.0/24")
     net7 = IPAddr.new("192.5.102.0/24")
     net8 = IPAddr.new("192.31.0.0/24")
-    
-    if !(net0 === request.remote_ip || net1 === request.remote_ip || net2 === request.remote_ip || net3 === request.remote_ip || net4 === request.remote_ip || net5 === request.remote_ip || net6 === request.remote_ip || net7 === request.remote_ip || net8 === request.remote_ip)
+    net9 = IPAddr.new("192.168.0.0/16")
+    net10 = IPAddr.new("127.0.0.1/32")
+        
+    if !(net0 === request.remote_ip || net1 === request.remote_ip || net2 === request.remote_ip || net3 === request.remote_ip || net4 === request.remote_ip || net5 === request.remote_ip || net6 === request.remote_ip || net7 === request.remote_ip || net8 === request.remote_ip || net9 === request.remote_ip || net10 === request.remote_ip)
       flash[:error] = "Please log in on the Purdue West Lafayette campus."
       redirect_to(root_path)
       return
