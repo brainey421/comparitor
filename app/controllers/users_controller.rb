@@ -92,6 +92,12 @@ class UsersController < ApplicationController
           return
         end
         
+        if !params[:check] || params[:check].length < 3
+          flash[:error] = "You must agree to all checkboxes in order to create an account."
+          redirect_to(create_user_path(user_email: @email))
+          return
+        end
+        
         u = User.new
         u.email = @email
         u.name = params[:user_name]
