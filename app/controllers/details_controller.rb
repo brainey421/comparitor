@@ -1,4 +1,4 @@
-class TermsController < ApplicationController
+class DetailsController < ApplicationController
   # Display the terms of The Comparitor
   def index
     
