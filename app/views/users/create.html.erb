@@ -6,7 +6,7 @@
       <h1 class="text-center">The Comparitor</h1>
 	  <br>
 	  <%= form_tag email_user_path, method: "get" do %>
-	    <h5>Please create a new account.</h5>
+	    <h4>Please create a new account.</h4>
 	    <br>
   	    <div class="input-group input-group-md">
   	      <span class="input-group-addon">email</span>
@@ -18,10 +18,13 @@
   	      <input name="user_name" type="text" class="form-control" placeholder="First">
 	    </div>
 		<br>
-		<h5><%= link_to "Click here to read details about The Comparitor experiment (opens in a new tab).", details_path, {target: "_blank"} %></h5>
+		<h4><%= link_to "Click here to read about The Comparitor experiment (opens in a new tab).", info_path, {target: "_blank"} %></h4>
+		<h6><%= check_box_tag "check[]", 0 %> I am at least 18 years old.</h6>
+		<h6><%= check_box_tag "check[]", 1 %> I am not in prison, and I am not involved in a court-ordered program or a community corrections program.</h6>
+		<h6><%= check_box_tag "check[]", 2 %> I understand and accept that my data will be collected for research purposes.</h6>
 		<br>
 		<div class="text-center">
-          <button type="submit" class="btn btn-primary btn-lg">Create account!</button>
+          <button type="submit" class="btn btn-primary btn-lg">create account!</button>
 		</div>
 	  <% end %>
     </div>

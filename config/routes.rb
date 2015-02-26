@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get '/users/edit/:user_id' => 'users#edit', as: 'edit_user'
   get '/users/modify/:user_id' => 'users#modify', as: 'modify_user'
   
-  get '/details' => 'details#index', as: 'details'
+  get '/info' => 'info#index', as: 'info'
   
   get '/comparitor' => 'comparitor#index', as: 'comparitor'
   
